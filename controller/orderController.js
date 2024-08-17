@@ -242,8 +242,8 @@ const getDashboardCount = async (req, res) => {
     res.send({
       totalOrder: totalDoc,
       totalPendingOrder: totalPendingOrder[0] || 0,
-      totalProcessingOrder: totalProcessingOrder[0]?.count || 0,
-      totalDeliveredOrder: totalDeliveredOrder[0]?.count || 0,
+      totalProcessingOrder: totalProcessingOrder[0].count ? totalProcessingOrder[0].count : 0,
+      totalDeliveredOrder: totalDeliveredOrder[0].count ? totalDeliveredOrder[0].count : 0,
     });
   } catch (err) {
     res.status(500).send({
@@ -327,7 +327,7 @@ const getDashboardAmount = async (req, res) => {
         totalAmount.length === 0
           ? 0
           : parseFloat(totalAmount[0].tAmount).toFixed(2),
-      thisMonthlyOrderAmount: thisMonthlyOrderAmount[0]?.total,
+      thisMonthlyOrderAmount: thisMonthlyOrderAmount[0].total ?  thisMonthlyOrderAmount[0].total : 0,
       ordersData: orderFilteringData,
     });
   } catch (err) {

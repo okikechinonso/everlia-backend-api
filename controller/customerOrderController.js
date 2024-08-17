@@ -60,7 +60,7 @@ const createPaymentIntent = async (req, res) => {
     const params = {
       amount: formatAmountForStripe(amount, process.env.CURRENCY),
       currency: process.env.CURRENCY,
-      description: process.env.STRIPE_PAYMENT_DESCRIPTION ?? "",
+      description: process.env.STRIPE_PAYMENT_DESCRIPTION,
       automatic_payment_methods: {
         enabled: true,
       },
