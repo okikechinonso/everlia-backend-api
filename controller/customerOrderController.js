@@ -7,12 +7,21 @@ const Order = require("../models/Order");
 
 const { handleProductQuantity } = require("../lib/stock-controller/others");
 const { formatAmountForStripe } = require("../lib/stripe/stripe");
+const { cloudinaryUploadToImage } = require("../lib/file-upload/cloudinary");
 
 const addOrder = async (req, res) => {
   try {
+    if (!req.body.paymentReceipt ){
+      throw new Error("must provide receipt")
+    }
+
+   const imgresponse = await  cloudinaryUploadToImage(req.body.paymentReceipt)
+   console.log(imgresponse.secure_url)
     const newOrder = new Order({
       ...req.body,
-      user: req.user._id,
+      user: req.body.user_info.email,
+      paymentReceipt: imgresponse.secure_url
+
     });
     const order = await newOrder.save();
     res.status(201).send(order);

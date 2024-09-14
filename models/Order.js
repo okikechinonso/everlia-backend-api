@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
-
+const cash = "CASH"
 const orderSchema = new mongoose.Schema(
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: 'User',
       required: true,
     },
@@ -68,6 +68,12 @@ const orderSchema = new mongoose.Schema(
     paymentMethod: {
       type: String,
       required: true,
+      default: cash,
+    },
+    paymentReceipt: {
+      type: String,
+      required: true,
+      default: cash,
     },
     cardInfo: {
       type: Object,
