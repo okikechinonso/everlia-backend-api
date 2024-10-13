@@ -1,11 +1,11 @@
-const mongoose = require('mongoose');
-const AutoIncrement = require('mongoose-sequence')(mongoose);
-const cash = "CASH"
+const mongoose = require("mongoose");
+const AutoIncrement = require("mongoose-sequence")(mongoose);
+const cash = "CASH";
 const orderSchema = new mongoose.Schema(
   {
     user: {
       type: String,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
     invoice: {
@@ -13,7 +13,7 @@ const orderSchema = new mongoose.Schema(
       required: false,
     },
     cart: [{}],
-   user_info: {
+    user_info: {
       name: {
         type: String,
         required: false,
@@ -38,6 +38,14 @@ const orderSchema = new mongoose.Schema(
         type: String,
         required: false,
       },
+      location: {
+        type: String,
+        required: false,
+      },
+      area: {
+        type: String,
+        required: false,
+      },
       zipCode: {
         type: String,
         required: false,
@@ -56,7 +64,7 @@ const orderSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
-   
+
     total: {
       type: Number,
       required: true,
@@ -81,7 +89,7 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['Pending', 'Processing', 'Delivered', 'Cancel'],
+      enum: ["Pending", "Processing", "Delivered", "Cancel"],
     },
   },
   {
@@ -89,11 +97,11 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
-const Order =mongoose.model(
-    'Order',
-    orderSchema.plugin(AutoIncrement, {
-      inc_field: 'invoice',
-      start_seq: 10000,
-    })
-  );
+const Order = mongoose.model(
+  "Order",
+  orderSchema.plugin(AutoIncrement, {
+    inc_field: "invoice",
+    start_seq: 10000,
+  })
+);
 module.exports = Order;
