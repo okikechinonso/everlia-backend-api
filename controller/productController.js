@@ -12,6 +12,17 @@ const addProduct = async (req, res) => {
         : mongoose.Types.ObjectId(),
     });
 
+    if (newProduct.hasTest) {
+      const test = newProduct.variants.find((e) => {
+        if (e.name && e.name.toLowerCase() === "test") {
+          return e;
+        }
+      });
+      if (!test) {
+        throw new Error("Please add a test variant");
+      }
+    }
+
     await newProduct.save();
     res.send(newProduct);
   } catch (err) {
