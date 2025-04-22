@@ -10,6 +10,11 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    hasTest: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     barcode: {
       type: String,
       required: false,
