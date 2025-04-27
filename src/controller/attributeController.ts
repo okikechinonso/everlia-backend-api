@@ -17,6 +17,97 @@ export const addAttribute = async (req: Request, res: Response) => {
   }
 };
 
+export const getAttributeById = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const attribute = await Attribute.findById(req.params.id);
+    res.send(attribute);
+  } catch (err) {
+    res.status(500).send({
+      message: (err as Error).message,
+    });
+  }
+};
+
+export const getShowingAttributesTest = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const attributes = await Attribute.find({ status: "show" });
+    res.send(attributes);
+  } catch (err) {
+    res.status(500).send({
+      message: (err as Error).message,
+    });
+  }
+};
+
+export const updateChildStatus = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const newStatus = req.body.status;
+
+    await Attribute.updateOne(
+      { "variants._id": req.params.id },
+      {
+        $set: {
+          "variants.$.status": newStatus,
+        },
+      }
+    );
+    res.status(200).send({
+      message: `Attribute Value ${
+        newStatus === "show" ? "Published" : "Un-Published"
+      } Successfully!`,
+    });
+  } catch (err) {
+    res.status(500).send({
+      message: (err as Error).message,
+    });
+  }
+};
+
+export const getChildAttributeById = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id, ids } = req.params;
+
+    const attribute = await Attribute.findOne({
+      _id: id,
+    });
+
+    const childAttribute = attribute?.variants.find((attr: any) => {
+      return attr._id == ids;
+    });
+
+    res.send(childAttribute);
+  } catch (err) {
+    res.status(500).send({
+      message: (err as Error).message,
+    });
+  }
+};
+
+export const updateManyAttribute = async (req: Request, res: Response): Promise<void> => {
+  try {
+    await Attribute.updateMany(
+      { _id: { $in: req.body.ids } },
+      {
+        $set: {
+          option: req.body.option,
+          status: req.body.status,
+        },
+      },
+      {
+        multi: true,
+      }
+    );
+
+    res.send({
+      message: "Attributes updated successfully!",
+    });
+  } catch (err) {
+    res.status(500).send({
+      message: (err as Error).message,
+    });
+  }
+};
+
 export const addChildAttributes = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
