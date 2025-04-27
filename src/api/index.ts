@@ -4,7 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import path from "path";
 
-import { connectDB } from "../config/db";
+import connectDB  from "../config/db";
 import productRoutes from "../routes/productRoutes";
 import customerRoutes from "../routes/customerRoutes";
 import adminRoutes from "../routes/adminRoutes";
@@ -52,7 +52,7 @@ app.use("/api/admin/", adminRoutes);
 app.use("/api/orders/", orderRoutes);
 
 // Error handling middleware
-app.use((err, req, res, next) => {
+app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
   if (res.headersSent) return next(err);
   res.status(400).json({ message: err.message });
 });

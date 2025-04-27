@@ -1,18 +1,19 @@
-const router = require("express").Router();
-
-const {
+import express from "express";
+import {
   addGlobalSetting,
   getGlobalSetting,
   updateGlobalSetting,
-} = require("../controller/settingController");
+} from "../controller/settingController";
 
-//add a global setting
+const router = express.Router();
+
+// Add a global setting
 router.post("/global/add", addGlobalSetting);
 
-//get global setting
+// Get global setting
 router.get("/global/all", getGlobalSetting);
 
-//update global setting
+// Update global setting
 router.put("/global/update", updateGlobalSetting);
 
-module.exports = router;
+export default router;
