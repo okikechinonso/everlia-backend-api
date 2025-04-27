@@ -1,7 +1,5 @@
-const express = require('express');
-const router = express.Router();
-
-const {
+import express from "express";
+import {
   addCurrency,
   addAllCurrency,
   getAllCurrency,
@@ -13,42 +11,41 @@ const {
   updateLiveExchangeRateStatus,
   deleteCurrency,
   deleteManyCurrency,
-} = require('../controller/currencyController');
+} from "../controller/currencyController";
 
-//add a addCurrency
-router.post('/add', addCurrency);
+const router = express.Router();
 
-//add all Currency
-router.post('/add/all', addAllCurrency);
+// Add a currency
+router.post("/add", addCurrency);
 
-//get only showing Currency
-router.get('/show', getShowingCurrency);
+// Add all currencies
+router.post("/add/all", addAllCurrency);
 
-//get all Currency
-router.get('/', getAllCurrency);
+// Get only showing currencies
+router.get("/show", getShowingCurrency);
 
-//get a Currency
-router.get('/:id', getCurrencyById);
+// Get all currencies
+router.get("/", getAllCurrency);
 
-//update a Currency
-router.put('/:id', updateCurrency);
+// Get a currency by ID
+router.get("/:id", getCurrencyById);
 
-// update many Currency
-router.patch('/update/many', updateManyCurrency);
+// Update a currency
+router.put("/:id", updateCurrency);
 
-//delete many product
-router.patch('/delete/many', deleteManyCurrency);
+// Update many currencies
+router.patch("/update/many", updateManyCurrency);
 
-//delete a Currency
-router.delete('/:id', deleteCurrency);
+// Delete many currencies
+router.patch("/delete/many", deleteManyCurrency);
 
-// show/hide a Currency
-router.put('/status/enabled/:id', updateEnabledStatus);
+// Delete a currency
+router.delete("/:id", deleteCurrency);
 
-// show/hide a Currency
-router.put('/status/live-exchange-rates/:id', updateLiveExchangeRateStatus);
+// Show/hide a currency (enabled status)
+router.put("/status/enabled/:id", updateEnabledStatus);
 
-//delete a Currency
-router.delete('/:id', deleteCurrency);
+// Show/hide a currency (live exchange rates)
+router.put("/status/live-exchange-rates/:id", updateLiveExchangeRateStatus);
 
-module.exports = router;
+export default router;

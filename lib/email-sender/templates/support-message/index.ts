@@ -1,4 +1,4 @@
-const sendSupportMessage = (option) => {
+export const sendSupportMessage = (option: any) => {
   return `
 <html
   xmlns='http://www.w3.org/1999/xhtml'
@@ -395,4 +395,4 @@ const sendSupportMessage = (option) => {
 
 `;
 };
-module.exports = { sendSupportMessage };
+

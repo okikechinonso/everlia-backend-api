@@ -1,6 +1,5 @@
-const express = require("express");
-const router = express.Router();
-const {
+import express from "express";
+import {
   loginCustomer,
   registerCustomer,
   signUpWithProvider,
@@ -13,46 +12,48 @@ const {
   updateCustomer,
   deleteCustomer,
   addAllCustomers,
-} = require("../controller/customerController");
-const {
+} from "../controller/customerController";
+import {
   passwordVerificationLimit,
   emailVerificationLimit,
-} = require("../lib/email-sender/sender");
+} from "../lib/email-sender/sender";
 
-//verify email
+const router = express.Router();
+
+// Verify email
 router.post("/verify-email", emailVerificationLimit, verifyEmailAddress);
 
-//register a user
+// Register a user
 router.post("/register/:token", registerCustomer);
 
-//login a user
+// Login a user
 router.post("/login", loginCustomer);
 
-//register or login with google and fb
+// Register or login with Google and Facebook
 router.post("/signup/:token", signUpWithProvider);
 
-//forget-password
+// Forget password
 router.put("/forget-password", passwordVerificationLimit, forgetPassword);
 
-//reset-password
+// Reset password
 router.put("/reset-password", resetPassword);
 
-//change password
+// Change password
 router.post("/change-password", changePassword);
 
-//add all users
+// Add all users
 router.post("/add/all", addAllCustomers);
 
-//get all user
+// Get all users
 router.get("/", getAllCustomers);
 
-//get a user
+// Get a user by ID
 router.get("/:id", getCustomerById);
 
-//update a user
+// Update a user
 router.put("/:id", updateCustomer);
 
-//delete a user
+// Delete a user
 router.delete("/:id", deleteCustomer);
 
-module.exports = router;
+export default router;

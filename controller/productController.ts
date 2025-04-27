@@ -10,13 +10,6 @@ export const addProduct = async (req: Request, res: Response): Promise<void> => 
       productId: req.body.productId || mongoose.Types.ObjectId(),
     });
 
-    if (newProduct.hasTest) {
-      const test = newProduct.variants.find((e: any) => e.name?.toLowerCase() === "test");
-      if (!test) {
-        throw new Error("Please add a test variant");
-      }
-    }
-
     await newProduct.save();
     res.send(newProduct);
   } catch (err) {
@@ -160,7 +153,7 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
       product.slug = req.body.slug;
       product.categories = req.body.categories;
       product.category = req.body.category;
-      product.show = req.body.show;
+      product.status = req.body.status;
       product.isCombination = req.body.isCombination;
       product.variants = req.body.variants;
       product.stock = req.body.stock;

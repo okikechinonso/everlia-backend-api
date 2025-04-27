@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Currency as CurrencyType } from "../types/currency";
 
 const currencySchema = new mongoose.Schema(
   {
@@ -36,6 +37,6 @@ const currencySchema = new mongoose.Schema(
   }
 );
 
-const Currency = mongoose.model("Currency", currencySchema);
+const Currency = mongoose.model<CurrencyType>("Currency", currencySchema);
 
 export default Currency;

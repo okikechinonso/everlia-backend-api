@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Coupon as CouponType} from "../types/coupon";
 
 const couponSchema = new mongoose.Schema(
   {
@@ -46,6 +47,6 @@ const couponSchema = new mongoose.Schema(
   }
 );
 
-const Coupon = mongoose.model("Coupon", couponSchema);
+const Coupon = mongoose.model<CouponType>(  "Coupon", couponSchema);
 
 export default Coupon;

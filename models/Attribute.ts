@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Attribute as  AttributeType } from "../types/attributes";
 
 const attributeSchema = new mongoose.Schema(
   {
@@ -46,6 +47,6 @@ const attributeSchema = new mongoose.Schema(
   }
 );
 
-const Attribute = mongoose.model("Attribute", attributeSchema);
+const Attribute = mongoose.model<AttributeType>("Attribute", attributeSchema);
 
 export default Attribute;

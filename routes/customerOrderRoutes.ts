@@ -1,22 +1,23 @@
 import express from "express";
-const router = express.Router();
-const {
+import {
   addOrder,
   getOrderById,
   getOrderCustomer,
   createPaymentIntent,
-} = require("../controller/customerOrderController");
+} from "../controller/customerOrderController";
 
-//add a order
+const router = express.Router();
+
+// Add an order
 router.post("/add", addOrder);
 
-// create stripe payment intent
+// Create Stripe payment intent
 router.post("/create-payment-intent", createPaymentIntent);
 
-//get a order by id
+// Get an order by ID
 router.get("/:id", getOrderById);
 
-//get all order by a user
+// Get all orders by a user
 router.get("/", getOrderCustomer);
 
-module.exports = router;
+export default router;

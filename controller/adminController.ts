@@ -10,13 +10,14 @@ import { Request, Response } from "express";
 
 dayjs.extend(utc);
 
-export const registerAdmin = async (req: Request, res: Response) => {
+export const registerAdmin = async (req: Request, res: Response)=> {
   try {
     const isAdded = await Admin.findOne({ email: req.body.email });
     if (isAdded) {
-      return res.status(403).send({
+       res.status(403).send({
         message: "This Email already Added!",
       });
+      return
     } else {
       const newStaff = new Admin({
         name: req.body.name,
@@ -72,9 +73,10 @@ export const loginAdmin = async (req: Request, res: Response) => {
 export const forgetPassword = async (req: Request, res: Response) => {
   const isAdded = await Admin.findOne({ email: req.body.verifyEmail });
   if (!isAdded) {
-    return res.status(404).send({
+     res.status(404).send({
       message: "Admin/Staff Not found with this email!",
     });
+    return
   } else {
     const token = tokenForVerify(isAdded);
     const body = {
@@ -99,20 +101,29 @@ export const resetPassword = async (req: Request, res: Response) => {
   const token = req.body.token;
   const { email } = jwt.decode(token) as { email: string };
   const staff = await Admin.findOne({ email: email });
+  if (!staff) {
+     res.status(404).send({
+      message: "Admin/Staff Not found with this email!",
+    });
+    return
+  }
 
   if (token) {
     const secret = process.env.JWT_SECRET_FOR_VERIFY;
     if (!secret) {
-      return res.status(500).send({
+       res.status(500).send({
         message: "JWT secret is not defined in the environment variables.",
       });
+      return
     }
     jwt.verify(token, secret, (err: jwt.VerifyErrors | null) => {
       if (err) {
-        return res.status(500).send({
+         res.status(500).send({
           message: "Token expired, please try again!",
         });
+        return
       } else {
+        
         staff.password = bcrypt.hashSync(req.body.newPassword, 14);
         staff.save();
         res.send({
@@ -127,9 +138,10 @@ export const addStaff = async (req: Request, res: Response) => {
   try {
     const isAdded = await Admin.findOne({ email: req.body.staffData.email });
     if (isAdded) {
-      return res.status(500).send({
+       res.status(500).send({
         message: "This Email already Added!",
       });
+      return
     } else {
       const newStaff = new Admin({
         name: { ...req.body.staffData.name },
@@ -181,14 +193,12 @@ export const updateStaff = async (req: Request, res: Response) => {
   try {
     const admin = await Admin.findOne({ _id: req.params.id });
     if (admin) {
-      admin.name = { ...admin.name, ...req.body.name };
+      admin.name = req.body.name ;
       admin.email = req.body.email;
       admin.phone = req.body.phone;
       admin.role = req.body.role;
-      admin.userstatus = req.body.userstatus;
-      admin.userpin = req.body.userpin;
+      admin.status = req.body.userstatus;
       admin.joiningData = req.body.joiningDate;
-      admin.forcepwreset = false;
       admin.password =
         req.body.password !== undefined
           ? bcrypt.hashSync(req.body.password, 14)
@@ -203,8 +213,7 @@ export const updateStaff = async (req: Request, res: Response) => {
         name: updatedAdmin.name,
         email: updatedAdmin.email,
         role: updatedAdmin.role,
-        userid: updatedAdmin.userid,
-        userpin: updatedAdmin.userpin,
+        userid: updatedAdmin._id,
         image: updatedAdmin.image,
       });
     } else {

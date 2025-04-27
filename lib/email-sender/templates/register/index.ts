@@ -1,4 +1,4 @@
-const customerRegisterBody = (option) => {
+export const customerRegisterBody = (option: any) => {
   return `
 <html
   xmlns="http://www.w3.org/1999/xhtml"
@@ -390,4 +390,4 @@ const customerRegisterBody = (option) => {
 
 `;
 };
-module.exports = { customerRegisterBody };
+

@@ -64,7 +64,7 @@ export const registerCustomer = async (req: Request, res: Response): Promise<voi
       return;
     }
 
-    jwt.verify(token, process.env.JWT_SECRET_FOR_VERIFY as string, async (err) => {
+    jwt.verify(token, process.env.JWT_SECRET_FOR_VERIFY as string, async (err: Error | null) => {
       if (err) {
         return res.status(401).send({
           message: "Token Expired, Please try again!",
@@ -175,9 +175,12 @@ export const resetPassword = async (req: Request, res: Response): Promise<void> 
   try {
     const token = req.body.token;
     const { email } = jwt.decode(token) as { email: string };
-    const customer = await Customer.findOne({ email });
+    const customer = await Customer.findOne({ email })
+    if (!customer) {
+      throw new Error("customer not found")
+    }
 
-    jwt.verify(token, process.env.JWT_SECRET_FOR_VERIFY as string, async (err) => {
+    jwt.verify(token, process.env.JWT_SECRET_FOR_VERIFY as string, async (err: Error | null) => {
       if (err) {
         return res.status(500).send({
           message: "Token expired, please try again!",

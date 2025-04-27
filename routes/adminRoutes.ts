@@ -1,6 +1,5 @@
-const express = require("express");
-const router = express.Router();
-const {
+import express from "express";
+import {
   registerAdmin,
   loginAdmin,
   forgetPassword,
@@ -11,37 +10,39 @@ const {
   updateStaff,
   deleteStaff,
   updatedStatus,
-} = require("../controller/adminController");
-const { passwordVerificationLimit } = require("../lib/email-sender/sender");
+} from "../controller/adminController";
+import { passwordVerificationLimit } from "../lib/email-sender/sender";
 
-//register a staff
+const router = express.Router();
+
+// Register a staff
 router.post("/register", registerAdmin);
 
-//login a admin
+// Login an admin
 router.post("/login", loginAdmin);
 
-//forget-password
+// Forget password
 router.put("/forget-password", passwordVerificationLimit, forgetPassword);
 
-//reset-password
+// Reset password
 router.put("/reset-password", resetPassword);
 
-//add a staff
+// Add a staff
 router.post("/add", addStaff);
 
-//get all staff
+// Get all staff
 router.get("/", getAllStaff);
 
-//get a staff
-router.post("/:id", getStaffById);
+// Get a staff by ID
+router.get("/:id", getStaffById);
 
-//update a staff
+// Update a staff
 router.put("/:id", updateStaff);
 
-//update staf status
+// Update staff status
 router.put("/update-status/:id", updatedStatus);
 
-//delete a staff
+// Delete a staff
 router.delete("/:id", deleteStaff);
 
-module.exports = router;
+export default router;

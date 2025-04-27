@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Currency from "../models/Currency";
+import { Currency as CurrencyType } from "../types/currency";
 
 export const addCurrency = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -66,8 +67,6 @@ export const updateCurrency = async (req: Request, res: Response): Promise<void>
     if (currency) {
       currency.name = req.body.name;
       currency.symbol = req.body.symbol;
-      currency.iso_code = req.body.iso_code;
-      currency.exchange_rate = req.body.exchange_rate;
       currency.status = req.body.status;
       currency.live_exchange_rates = req.body.live_exchange_rates;
 

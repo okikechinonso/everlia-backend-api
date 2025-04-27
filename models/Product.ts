@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Product as ProductType } from "../types/product";
 
 const productSchema = new mongoose.Schema(
   {
@@ -86,6 +87,6 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-const Product = mongoose.model("Product", productSchema);
+const Product = mongoose.model<ProductType>("Product", productSchema);
 
 export default Product;

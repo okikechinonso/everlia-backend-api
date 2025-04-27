@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
+import { IAdmin as AdminType } from "../types/admin";
 
 const adminSchema = new mongoose.Schema(
   {
     name: {
-      type: Object,
+      type: String,
       required: true,
     },
     image: {
@@ -40,7 +41,7 @@ const adminSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: false,
+      required: true,
       default: bcrypt.hashSync("12345678"),
     },
     role: {
@@ -68,6 +69,6 @@ const adminSchema = new mongoose.Schema(
   }
 );
 
-const Admin = mongoose.model<T>("Admin", adminSchema);
+const Admin = mongoose.model<AdminType & mongoose.Document>("Admin", adminSchema);
 
 export default Admin;

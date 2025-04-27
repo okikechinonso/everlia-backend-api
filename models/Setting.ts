@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Setting as SettingType } from "../types/setting";
 
 const settingSchema = new mongoose.Schema(
   {
@@ -13,6 +14,6 @@ const settingSchema = new mongoose.Schema(
   }
 );
 
-const Setting = mongoose.model("Setting", settingSchema);
+const Setting = mongoose.model<SettingType>("Setting", settingSchema);
 
 export default Setting;

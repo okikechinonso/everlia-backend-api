@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Customer as CustomerType } from "../types/customer";
 
 const customerSchema = new mongoose.Schema(
   {
@@ -42,6 +43,6 @@ const customerSchema = new mongoose.Schema(
   }
 );
 
-const Customer = mongoose.model("Customer", customerSchema);
+const Customer = mongoose.model<CustomerType>("Customer", customerSchema);
 
 export default Customer;

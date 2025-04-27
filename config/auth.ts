@@ -2,18 +2,10 @@ import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import Admin from "../models/Admin";
+import { User } from "../types/user";
 
 dotenv.config();
 
-interface User {
-  _id: string;
-  name: string;
-  email: string;
-  address?: string;
-  phone?: string;
-  image?: string;
-  password?: string;
-}
 
 export const signInToken = (user: User): string => {
   return jwt.sign(
@@ -52,8 +44,7 @@ export const isAuth = async (req: Request, res: Response, next: NextFunction): P
       throw new Error("Authorization header is missing");
     }
     const token = authorization.split(" ")[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as User;
-    req.user = decoded;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
     next();
   } catch (err) {
     res.status(401).send({

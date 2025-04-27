@@ -1,6 +1,5 @@
-const express = require('express');
-const router = express.Router();
-const {
+import express from "express";
+import {
   addCategory,
   addAllCategory,
   getAllCategory,
@@ -11,40 +10,42 @@ const {
   updateStatus,
   deleteCategory,
   deleteManyCategory,
-  updateManyCategory
+  updateManyCategory,
+} from "../controller/categoryController";
 
-} = require('../controller/categoryController');
+const router = express.Router();
 
-//add a category
-router.post('/add', addCategory);
+// Add a category
+router.post("/add", addCategory);
 
-//add all category
-router.post('/add/all', addAllCategory);
+// Add all categories
+router.post("/add/all", addAllCategory);
 
-//get only showing category
-router.get('/show', getShowingCategory);
+// Get only showing categories
+router.get("/show", getShowingCategory);
 
-//get all category
-router.get('/', getAllCategory);
-//get all category
-router.get('/all', getAllCategories);
+// Get all categories
+router.get("/", getAllCategory);
 
-//get a category
-router.get('/:id', getCategoryById);
+// Get all categories (alternative route)
+router.get("/all", getAllCategories);
 
-//update a category
-router.put('/:id', updateCategory);
+// Get a category by ID
+router.get("/:id", getCategoryById);
 
-//show/hide a category
-router.put('/status/:id', updateStatus);
+// Update a category
+router.put("/:id", updateCategory);
 
-//delete a category
-router.delete('/:id', deleteCategory);
+// Show/hide a category
+router.put("/status/:id", updateStatus);
 
-// delete many category
-router.patch('/delete/many', deleteManyCategory);
+// Delete a category
+router.delete("/:id", deleteCategory);
 
-// update many category
-router.patch('/update/many', updateManyCategory);
+// Delete many categories
+router.patch("/delete/many", deleteManyCategory);
 
-module.exports = router;
+// Update many categories
+router.patch("/update/many", updateManyCategory);
+
+export default router;

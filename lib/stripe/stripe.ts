@@ -1,5 +1,5 @@
 //handle amount format for stripe
-const formatAmountForStripe = (amount, currency) => {
+export const formatAmountForStripe = (amount: number, currency: any) => {
   let numberFormat = new Intl.NumberFormat(['en'], {
     style: 'currency',
     currency: currency,
@@ -15,6 +15,3 @@ const formatAmountForStripe = (amount, currency) => {
   return zeroDecimalCurrency ? amount : Math.round(amount * 100);
 };
 
-module.exports = {
-  formatAmountForStripe,
-};

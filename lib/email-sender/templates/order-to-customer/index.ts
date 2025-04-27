@@ -1,4 +1,4 @@
-const customerInvoiceEmailBody = (option) => {
+export const customerInvoiceEmailBody = (option: any) => {
   return `<html
   xmlns='http://www.w3.org/1999/xhtml'
   xmlns:v='urn:schemas-microsoft-com:vml'
@@ -6,7 +6,7 @@ const customerInvoiceEmailBody = (option) => {
 >
 
   <head>
-    <title>Kachabazar</title>
+    <title>Everlia</title>
     <!--[if !mso]><!-->
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
     <!--<![endif]-->
@@ -355,7 +355,7 @@ const customerInvoiceEmailBody = (option) => {
                               <tbody>
 
                                 ${option.cart
-                                  .map((item) => {
+                                  .map((item: any) => {
                                     return `
                                 <tr>
 
@@ -593,5 +593,3 @@ const customerInvoiceEmailBody = (option) => {
 
 </html>`;
 };
-
-module.exports = customerInvoiceEmailBody;

@@ -1,6 +1,5 @@
 import express from "express";
-const router = express.Router();
-const {
+import {
   addProduct,
   addAllProducts,
   getAllProducts,
@@ -13,42 +12,44 @@ const {
   deleteProduct,
   deleteManyProducts,
   getShowingStoreProducts,
-} = require("../controller/productController");
+} from "../controller/productController";
 
-//add a product
+const router = express.Router();
+
+// Add a product
 router.post("/add", addProduct);
 
-//add multiple products
+// Add multiple products
 router.post("/all", addAllProducts);
 
-//get a product
+// Get a product by ID
 router.get("/:id", getProductById);
 
-//get showing products only
+// Get showing products only
 router.get("/show", getShowingProducts);
 
-//get showing products in store
+// Get showing products in store
 router.get("/store", getShowingStoreProducts);
 
-//get all products
+// Get all products
 router.get("/", getAllProducts);
 
-//get a product by slug
+// Get a product by slug
 router.get("/product/:slug", getProductBySlug);
 
-//update a product
+// Update a product
 router.patch("/:id", updateProduct);
 
-//update many products
+// Update many products
 router.patch("/update/many", updateManyProducts);
 
-//update a product status
+// Update a product status
 router.put("/status/:id", updateStatus);
 
-//delete a product
+// Delete a product
 router.delete("/:id", deleteProduct);
 
-//delete many product
+// Delete many products
 router.patch("/delete/many", deleteManyProducts);
 
-module.exports = router;
+export default router;

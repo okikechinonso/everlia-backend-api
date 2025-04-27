@@ -1,6 +1,5 @@
 import express from "express";
-const router = express.Router();
-const {
+import {
   getAllOrders,
   getOrderById,
   getOrderCustomer,
@@ -11,36 +10,38 @@ const {
   getDashboardRecentOrder,
   getDashboardCount,
   getDashboardAmount,
-} = require("../controller/orderController");
+} from "../controller/orderController";
 
-//get all orders
+const router = express.Router();
+
+// Get all orders
 router.get("/", getAllOrders);
 
-// get dashboard orders data
+// Get dashboard orders data
 router.get("/dashboard", getDashboardOrders);
 
-// dashboard recent-order
+// Dashboard recent orders
 router.get("/dashboard-recent-order", getDashboardRecentOrder);
 
-// dashboard order count
+// Dashboard order count
 router.get("/dashboard-count", getDashboardCount);
 
-// dashboard order amount
+// Dashboard order amount
 router.get("/dashboard-amount", getDashboardAmount);
 
-// chart data for product
+// Chart data for best-selling products
 router.get("/best-seller/chart", bestSellerProductChart);
 
-//get all order by a user
+// Get all orders by a user
 router.get("/customer/:id", getOrderCustomer);
 
-//get a order by id
+// Get an order by ID
 router.get("/:id", getOrderById);
 
-//update a order
+// Update an order
 router.put("/:id", updateOrder);
 
-//delete a order
+// Delete an order
 router.delete("/:id", deleteOrder);
 
-module.exports = router;
+export default router;

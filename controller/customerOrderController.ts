@@ -10,7 +10,7 @@ import { cloudinaryUploadToImage } from "../lib/file-upload/cloudinary";
 dotenv.config();
 
 const stripe = new Stripe(process.env.STRIPE_KEY as string, {
-  apiVersion: "2022-11-15",
+  apiVersion: "2020-08-27",
 });
 
 export const addOrder = async (req: Request, res: Response): Promise<void> => {
@@ -84,13 +84,13 @@ export const getOrderCustomer = async (req: Request, res: Response): Promise<voi
     const limits = Number(limit) || 8;
     const skip = (pages - 1) * limits;
 
-    const totalDoc = await Order.countDocuments({ user: req.user._id });
+    const totalDoc = await Order.countDocuments({ user: req.body._id });
 
     const totalPendingOrder = await Order.aggregate([
       {
         $match: {
           status: "Pending",
-          user: new mongoose.Types.ObjectId(req.user._id),
+          user: new mongoose.Types.ObjectId(req.body._id),
         },
       },
       {
@@ -106,7 +106,7 @@ export const getOrderCustomer = async (req: Request, res: Response): Promise<voi
       {
         $match: {
           status: "Processing",
-          user: new mongoose.Types.ObjectId(req.user._id),
+          user: new mongoose.Types.ObjectId(req.body._id),
         },
       },
       {
@@ -122,7 +122,7 @@ export const getOrderCustomer = async (req: Request, res: Response): Promise<voi
       {
         $match: {
           status: "Delivered",
-          user: new mongoose.Types.ObjectId(req.user._id),
+          user: new mongoose.Types.ObjectId(req.body._id),
         },
       },
       {
@@ -134,7 +134,7 @@ export const getOrderCustomer = async (req: Request, res: Response): Promise<voi
       },
     ]);
 
-    const orders = await Order.find({ user: req.user._id })
+    const orders = await Order.find({ user: req.body._id })
       .sort({ _id: -1 })
       .skip(skip)
       .limit(limits);

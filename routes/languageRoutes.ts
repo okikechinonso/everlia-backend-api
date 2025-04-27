@@ -1,36 +1,47 @@
-import express from 'express';
+import express from "express";
+import {
+  addLanguage,
+  addAllLanguage,
+  getAllLanguages,
+  getShowingLanguage,
+  getLanguageById,
+  updateLanguage,
+  updateStatus,
+  deleteLanguage,
+  updateManyLanguage,
+  deleteManyLanguage,
+} from "../controller/languageController";
+
 const router = express.Router();
 
-import { addLanguage, addAllLanguage, getAllLanguages, getShowingLanguage, getLanguageById, updateLanguage, updateStatus, deleteLanguage, updateManyLanguage, deleteManyLanguage } from '../controller/languageController';
+// Add a language
+router.post("/add", addLanguage);
 
-// add a language
-router.post('/add', addLanguage);
+// Add all languages
+router.post("/add/all", addAllLanguage);
 
-// add all language
-router.post('/add/all', addAllLanguage);
+// Get only showing languages
+router.get("/show", getShowingLanguage);
 
-// get only showing language
-router.get('/show', getShowingLanguage);
+// Get all languages
+router.get("/all", getAllLanguages);
 
-// get all language
-router.get('/all', getAllLanguages);
+// Get a language by ID
+router.get("/:id", getLanguageById);
 
-// get a language
-router.get('/:id', getLanguageById);
+// Update a language
+router.put("/:id", updateLanguage);
 
-// update a language
-router.put('/:id', updateLanguage);
+// Update many languages
+router.patch("/update/many", updateManyLanguage);
 
-// update many language
-router.patch('/update/many', updateManyLanguage);
+// Show/hide a language
+router.put("/status/:id", updateStatus);
 
-// show/hide a language
-router.put('/status/:id', updateStatus);
+// Delete a language
+router.delete("/:id", deleteLanguage);
 
-// delete a language
-router.patch('/:id', deleteLanguage);
+// Delete many languages
+router.patch("/delete/many", deleteManyLanguage);
 
-//delete many language
-router.patch('/delete/many', deleteManyLanguage);
-
-module.exports = router;
+export default router;

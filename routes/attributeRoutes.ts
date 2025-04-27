@@ -1,7 +1,5 @@
-const express = require('express');
-const router = express.Router();
-
-const {
+import express from "express";
+import {
   addAttribute,
   addAllAttributes,
   getAllAttributes,
@@ -20,59 +18,62 @@ const {
   deleteManyAttribute,
   updateManyChildAttribute,
   deleteManyChildAttribute,
-} = require('../controller/attributeController');
+} from "../controller/attributeController";
 
-//add attribute
-router.post('/add', addAttribute);
+const router = express.Router();
 
-//add all attributes
-router.post('/add/all', addAllAttributes);
+// Add attribute
+router.post("/add", addAttribute);
 
-// add child attribute
-router.put('/add/child/:id', addChildAttributes);
+// Add all attributes
+router.post("/add/all", addAllAttributes);
 
-//get all attribute
-router.get('/', getAllAttributes);
+// Add child attribute
+router.put("/add/child/:id", addChildAttributes);
 
-// router.get('/show', getShowingProducts);
-router.get('/show', getShowingAttributes);
+// Get all attributes
+router.get("/", getAllAttributes);
 
-router.put('/show/test', getShowingAttributesTest);
+// Get showing attributes
+router.get("/show", getShowingAttributes);
 
-// update many attributes
-router.patch('/update/many', updateManyAttribute);
+// Test showing attributes
+router.put("/show/test", getShowingAttributesTest);
 
-//get attribute by id
-router.get('/:id', getAttributeById);
+// Update many attributes
+router.patch("/update/many", updateManyAttribute);
 
-// child get attributes by id
-router.get('/child/:id/:ids', getChildAttributeById);
+// Get attribute by ID
+router.get("/:id", getAttributeById);
 
-//update attribute
-router.put('/:id', updateAttributes);
+// Get child attribute by ID
+router.get("/child/:id/:ids", getChildAttributeById);
 
-// update child attribute
-router.patch('/update/child/many', updateManyChildAttribute);
+// Update attribute
+router.put("/:id", updateAttributes);
 
-// update child attribute
-router.put('/update/child/:attributeId/:childId', updateChildAttributes);
+// Update many child attributes
+router.patch("/update/child/many", updateManyChildAttribute);
 
-//show/hide a attribute
-router.put('/status/:id', updateStatus);
+// Update child attribute
+router.put("/update/child/:attributeId/:childId", updateChildAttributes);
 
-// show and hide a child status
-router.put('/status/child/:id', updateChildStatus);
+// Show/hide an attribute
+router.put("/status/:id", updateStatus);
 
-//delete attribute
-router.delete('/:id', deleteAttribute);
+// Show/hide a child attribute status
+router.put("/status/child/:id", updateChildStatus);
 
-// delete child attribute
-router.put('/delete/child/:attributeId/:childId', deleteChildAttribute);
+// Delete attribute
+router.delete("/:id", deleteAttribute);
 
-// delete many attribute
-router.patch('/delete/many', deleteManyAttribute);
+// Delete child attribute
+router.put("/delete/child/:attributeId/:childId", deleteChildAttribute);
 
-// delete many child attribute
-router.patch('/delete/child/many', deleteManyChildAttribute);
+// Delete many attributes
+router.patch("/delete/many", deleteManyAttribute);
 
-module.exports = router;
+// Delete many child attributes
+router.patch("/delete/child/many", deleteManyChildAttribute);
+
+export default router;

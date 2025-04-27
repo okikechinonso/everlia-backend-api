@@ -1,21 +1,24 @@
 import nodemailer from "nodemailer";
 import rateLimit from "express-rate-limit";
+import SMTPPool from "nodemailer/lib/smtp-pool";
 
 const sendEmail = (body: nodemailer.SendMailOptions, res: any, message: string) => {
-  const transporter = nodemailer.createTransport({
-    host: process.env.HOST,
+  const transportPayload: SMTPPool.Options = {
+    host: process.env.HOST as string,
     service: process.env.SERVICE, // comment this line if you use a custom server/domain
-    port: process.env.EMAIL_PORT,
+    port: process.env.EMAIL_PORT as unknown as number,
     secure: true,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
+    pool: true
     // comment out this one if you use a custom server/domain
     // tls: {
     //   rejectUnauthorized: false,
     // },
-  });
+  }
+  const transporter = nodemailer.createTransport(transportPayload as SMTPPool.Options);
 
   transporter.verify((err: Error | null, success: boolean) => {
     if (err) {

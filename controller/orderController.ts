@@ -298,7 +298,7 @@ export const getDashboardOrders = async (req: Request, res: Response): Promise<v
   const week = new Date();
   week.setDate(week.getDate() - 10);
 
-  const start = new Date().toDateString();
+  const start = new Date()
 
   try {
     const totalDoc = await Order.countDocuments();
