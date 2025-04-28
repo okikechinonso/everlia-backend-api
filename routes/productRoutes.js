@@ -37,7 +37,7 @@ router.get("/", getAllProducts);
 router.get("/product/:slug", getProductBySlug);
 
 //update a product
-router.patch("/:id", updateProduct);
+router.put("/:id", updateProduct);
 
 //update many products
 router.patch("/update/many", updateManyProducts);
