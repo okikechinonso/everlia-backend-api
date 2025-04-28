@@ -256,3 +256,79 @@ export const deleteCustomer = async (req: Request, res: Response): Promise<void>
     });
   }
 };
+
+export const signUpWithProvider = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const user = jwt.decode(req.params.token) as { email: string; name: string; picture?: string };
+
+    const isAdded = await Customer.findOne({ email: user.email });
+    if (isAdded) {
+      const token = signInToken(isAdded);
+      res.send({
+        token,
+        _id: isAdded._id,
+        name: isAdded.name,
+        email: isAdded.email,
+        address: isAdded.address,
+        phone: isAdded.phone,
+        image: isAdded.image,
+      });
+    } else {
+      const newUser = new Customer({
+        name: user.name,
+        email: user.email,
+        image: user.picture,
+      });
+
+      const signUpCustomer = await newUser.save();
+      const token = signInToken(signUpCustomer);
+      res.send({
+        token,
+        _id: signUpCustomer._id,
+        name: signUpCustomer.name,
+        email: signUpCustomer.email,
+        image: signUpCustomer.image,
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      message: (err as Error).message,
+    });
+  }
+};
+
+export const changePassword = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const customer = await Customer.findOne({ email: req.body.email });
+    if (!customer?.password) {
+       res.send({
+        message: "For change password, you need to sign in with email & password!",
+      });
+    } else if (compareSync(req.body.currentPassword, customer.password)) {
+      customer.password = hashSync(req.body.newPassword);
+      await customer.save();
+      res.send({
+        message: "Your password changed successfully!",
+      });
+    } else {
+      res.status(401).send({
+        message: "Invalid email or current password!",
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      message: (err as Error).message,
+    });
+  }
+};
+
+export const getAllCustomers = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const users = await Customer.find({}).sort({ _id: -1 });
+    res.send(users);
+  } catch (err) {
+    res.status(500).send({
+      message: (err as Error).message,
+    });
+  }
+};

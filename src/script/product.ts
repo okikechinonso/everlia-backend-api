@@ -1,37 +1,17 @@
 import dotenv from "dotenv";
 import fs from "fs";
 import products from "../utils/products";
+import { Product } from "../types/product";
 
 dotenv.config();
 
-interface Product {
-  slug: string;
-  sku: string;
-  barcode: string;
-  productId: string;
-  title: string;
-  description: string;
-  categories: string[];
-  category: string;
-  image: string[];
-  stock: number;
-  status: string;
-  isCombination: boolean;
-  prices: {
-    discount: string;
-    originalPrice: number;
-    price: number;
-  };
-  variants: Record<string, any>[];
-  tag: string[];
-}
 
 const updateManyProducts = async (): Promise<void> => {
   try {
     console.log("process running!");
 
     console.log("products", products.length);
-    const result = products?.map((el: Product) => {
+    const result = products.map((el: any) => {
       const newObj: Product = {
         slug: el.slug,
         sku: el.sku,
@@ -46,7 +26,7 @@ const updateManyProducts = async (): Promise<void> => {
         status: el.status,
         isCombination: el.isCombination,
         prices: {
-          discount: "0",
+          discount: 0,
           originalPrice: el.prices.originalPrice,
           price: el.prices.price,
         },

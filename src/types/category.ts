@@ -8,5 +8,6 @@ export interface Category {
     icon?: string;
     status?: "show" | "hide"; 
     createdAt?: Date; 
-    updatedAt?: Date; 
+    updatedAt?: Date;
+    _id: string; 
   }
