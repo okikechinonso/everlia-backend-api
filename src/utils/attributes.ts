@@ -138,4 +138,4 @@ const attributes = [
   },
 ];
 
-module.exports = attributes;
+export default attributes;

@@ -79,4 +79,4 @@ const admins = [
   },
 ];
 
-module.exports = admins;
+export default admins;

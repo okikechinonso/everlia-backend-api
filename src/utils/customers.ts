@@ -160,4 +160,4 @@ const customers = [
     phone: "714-200-5488",
   },
 ];
-module.exports = customers;
+export default customers;

@@ -77,4 +77,4 @@ const coupons = [
   },
 ];
 
-module.exports = coupons;
+export default coupons;

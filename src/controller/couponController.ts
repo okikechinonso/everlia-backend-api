@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Category from "../models/Category";
 
-export const addCategory = async (req: Request, res: Response): Promise<void> => {
+export const addCategory = async (req: Request, res: Response) => {
   try {
     const newCategory = new Category(req.body);
     await newCategory.save();
@@ -15,7 +15,7 @@ export const addCategory = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
-export const addAllCategory = async (req: Request, res: Response): Promise<void> => {
+export const addAllCategory = async (req: Request, res: Response) => {
   try {
     await Category.deleteMany();
     await Category.insertMany(req.body);
@@ -29,7 +29,7 @@ export const addAllCategory = async (req: Request, res: Response): Promise<void>
   }
 };
 
-export const getShowingCategory = async (req: Request, res: Response): Promise<void> => {
+export const getShowingCategory = async (req: Request, res: Response) => {
   try {
     const categories = await Category.find({ status: "show" }).sort({ _id: -1 });
     const categoryList = readyToParentAndChildrenCategory(categories);
@@ -41,7 +41,7 @@ export const getShowingCategory = async (req: Request, res: Response): Promise<v
   }
 };
 
-export const getAllCategory = async (req: Request, res: Response): Promise<void> => {
+export const getAllCategory = async (req: Request, res: Response) => {
   try {
     const categories = await Category.find({}).sort({ _id: -1 });
     const categoryList = readyToParentAndChildrenCategory(categories);
@@ -53,7 +53,7 @@ export const getAllCategory = async (req: Request, res: Response): Promise<void>
   }
 };
 
-export const getAllCategories = async (req: Request, res: Response): Promise<void> => {
+export const getAllCategories = async (req: Request, res: Response) => {
   try {
     const categories = await Category.find({}).sort({ _id: -1 });
     res.send(categories);
@@ -64,7 +64,7 @@ export const getAllCategories = async (req: Request, res: Response): Promise<voi
   }
 };
 
-export const getCategoryById = async (req: Request, res: Response): Promise<void> => {
+export const getCategoryById = async (req: Request, res: Response) => {
   try {
     const category = await Category.findById(req.params.id);
     res.send(category);
@@ -75,7 +75,7 @@ export const getCategoryById = async (req: Request, res: Response): Promise<void
   }
 };
 
-export const updateCategory = async (req: Request, res: Response): Promise<void> => {
+export const updateCategory = async (req: Request, res: Response) => {
   try {
     const category = await Category.findById(req.params.id);
     if (category) {
@@ -98,7 +98,7 @@ export const updateCategory = async (req: Request, res: Response): Promise<void>
   }
 };
 
-export const updateManyCategory = async (req: Request, res: Response): Promise<void> => {
+export const updateManyCategory = async (req: Request, res: Response) => {
   try {
     const updatedData: Record<string, any> = {};
     for (const key of Object.keys(req.body)) {
@@ -127,7 +127,7 @@ export const updateManyCategory = async (req: Request, res: Response): Promise<v
   }
 };
 
-export const updateStatus = async (req: Request, res: Response): Promise<void> => {
+export const updateStatus = async (req: Request, res: Response) => {
   try {
     const newStatus = req.body.status;
 
@@ -148,7 +148,7 @@ export const updateStatus = async (req: Request, res: Response): Promise<void> =
   }
 };
 
-export const deleteCategory = async (req: Request, res: Response): Promise<void> => {
+export const deleteCategory = async (req: Request, res: Response) => {
   try {
     await Category.deleteOne({ _id: req.params.id });
     await Category.deleteMany({ parentId: req.params.id });
@@ -162,7 +162,7 @@ export const deleteCategory = async (req: Request, res: Response): Promise<void>
   }
 };
 
-export const deleteManyCategory = async (req: Request, res: Response): Promise<void> => {
+export const deleteManyCategory = async (req: Request, res: Response) => {
   try {
     await Category.deleteMany({ parentId: req.body.ids });
     await Category.deleteMany({ _id: req.body.ids });

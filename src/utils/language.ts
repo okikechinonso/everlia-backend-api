@@ -15,4 +15,4 @@ const language = [
   },
 ];
 
-module.exports = language;
+export default language;

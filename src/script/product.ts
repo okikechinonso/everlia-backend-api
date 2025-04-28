@@ -1,20 +1,42 @@
-require("dotenv").config();
-const fs = require("fs");
+import dotenv from "dotenv";
+import fs from "fs";
+import products from "../utils/products";
 
-const products = require("../utils/products");
+dotenv.config();
 
-const updateManyProducts = async () => {
+interface Product {
+  slug: string;
+  sku: string;
+  barcode: string;
+  productId: string;
+  title: string;
+  description: string;
+  categories: string[];
+  category: string;
+  image: string[];
+  stock: number;
+  status: string;
+  isCombination: boolean;
+  prices: {
+    discount: string;
+    originalPrice: number;
+    price: number;
+  };
+  variants: Record<string, any>[];
+  tag: string[];
+}
+
+const updateManyProducts = async (): Promise<void> => {
   try {
     console.log("process running!");
 
     console.log("products", products.length);
-    const result = products?.map((el) => {
-      const newObj = {
+    const result = products?.map((el: Product) => {
+      const newObj: Product = {
         slug: el.slug,
         sku: el.sku,
         barcode: el.barcode,
         productId: el.productId,
-
         title: el.title,
         description: el.description,
         categories: el.categories,
@@ -38,7 +60,7 @@ const updateManyProducts = async () => {
     console.log("data updated successfully!", result);
     process.exit();
   } catch (err) {
-    console.log("error", err);
+    console.error("error", err);
     process.exit(1);
   }
 };

@@ -16,4 +16,4 @@ const currency = [
   },
 ];
 
-module.exports = currency;
+export default currency;
