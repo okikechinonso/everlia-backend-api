@@ -142,11 +142,11 @@ export const addAllAttributes = async (req: Request, res: Response) => {
 
 export const getAllAttributes = async (req: Request, res: Response) => {
   try {
-    const { type, option, option1 } = req.query;
-    const attributes = await Attribute.find({
-     $or: [{ type }, { $or: [{ option }, { option: option1 }] }],
-    });
-    res.send(attributes);
+    // const { type, option, option1 } = req.query;
+    // const attributes = await Attribute.find({
+    //  $or: [{ type }, { $or: [{ option }, { option: option1 }] }],
+    // });
+    // res.send(attributes);
   } catch (err) {
     res.status(500).send({
       message: (err as Error).message,
@@ -227,9 +227,10 @@ export const updateChildAttributes = async (req: Request, res: Response) => {
     if (attribute) {
       const att = attribute.variants.find((v: AttributeVariant) => v._id.toString() === childId);
       if (!att) {
-        return res.status(404).send({
+         res.status(404).send({
           message: "Attribute value not found!",
         });
+        return
       }
       const name = {
         ...att.name,

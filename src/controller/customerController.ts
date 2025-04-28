@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import bcrypt from "bcrypt";
+import { hashSync, compareSync } from "bcrypt-ts";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import Customer from "../models/Customer";
@@ -42,6 +42,7 @@ export const verifyEmailAddress = async (req: Request, res: Response): Promise<v
   }
 };
 
+
 export const registerCustomer = async (req: Request, res: Response): Promise<void> => {
   try {
     const token = req.params.token;
@@ -74,7 +75,7 @@ export const registerCustomer = async (req: Request, res: Response): Promise<voi
       const newUser = new Customer({
         name,
         email,
-        password: bcrypt.hashSync(password, 14),
+        password: hashSync(password, 14),
       });
       await newUser.save();
       const token = signInToken(newUser);
@@ -114,7 +115,7 @@ export const loginCustomer = async (req: Request, res: Response): Promise<void> 
     if (
       customer &&
       customer.password &&
-      bcrypt.compareSync(req.body.password, customer.password)
+      compareSync(req.body.password, customer.password)
     ) {
       const token = signInToken(customer);
       res.send({
@@ -187,7 +188,7 @@ export const resetPassword = async (req: Request, res: Response): Promise<void> 
         });
       }
 
-      customer.password = bcrypt.hashSync(req.body.newPassword, 14);
+      customer.password = hashSync(req.body.newPassword, 14);
       await customer.save();
       res.send({
         message: "Your password change successful, you can login now!",

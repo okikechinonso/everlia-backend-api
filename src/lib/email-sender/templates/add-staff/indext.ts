@@ -1,4 +1,4 @@
-const addStaffEmailBody = (option) => {
+export const addStaffEmailBody = (option: any) => {
   return `
   <html
   xmlns='http://www.w3.org/1999/xhtml'
@@ -396,5 +396,3 @@ const addStaffEmailBody = (option) => {
 
 `;
 };
-
-module.exports = { addStaffEmailBody };

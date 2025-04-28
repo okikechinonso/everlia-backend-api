@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import { hashSync, compareSync } from "bcrypt-ts";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import jwt from "jsonwebtoken";
@@ -23,7 +23,7 @@ export const registerAdmin = async (req: Request, res: Response)=> {
         name: req.body.name,
         email: req.body.email,
         role: req.body.role,
-        password: bcrypt.hashSync(req.body.password, 14),
+        password: hashSync(req.body.password, 14),
       });
       const staff = await newStaff.save();
       const token = signInToken(staff);
@@ -47,7 +47,7 @@ export const registerAdmin = async (req: Request, res: Response)=> {
 export const loginAdmin = async (req: Request, res: Response) => {
   try {
     const admin = await Admin.findOne({ email: req.body.email });
-    if (admin && bcrypt.compareSync(req.body.password, admin.password)) {
+    if (admin && compareSync(req.body.password, admin.password)) {
       const token = signInToken(admin);
       res.send({
         token,
@@ -124,7 +124,7 @@ export const resetPassword = async (req: Request, res: Response) => {
         return
       } else {
         
-        staff.password = bcrypt.hashSync(req.body.newPassword, 14);
+        staff.password = hashSync(req.body.newPassword, 14);
         staff.save();
         res.send({
           message: "Your password has been changed successfully. You can log in now!",
@@ -146,7 +146,7 @@ export const addStaff = async (req: Request, res: Response) => {
       const newStaff = new Admin({
         name: { ...req.body.staffData.name },
         email: req.body.staffData.email,
-        password: bcrypt.hashSync(req.body.staffData.password, 14),
+        password: hashSync(req.body.staffData.password, 14),
         phone: req.body.staffData.phone,
         joiningDate: req.body.staffData.joiningDate,
         role: req.body.staffData.role,
@@ -201,7 +201,7 @@ export const updateStaff = async (req: Request, res: Response) => {
       admin.joiningData = req.body.joiningDate;
       admin.password =
         req.body.password !== undefined
-          ? bcrypt.hashSync(req.body.password, 14)
+          ? hashSync(req.body.password, 14)
           : admin.password;
       admin.image = req.body.image;
       const updatedAdmin = await admin.save();
