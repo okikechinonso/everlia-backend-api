@@ -4,12 +4,14 @@
   "description": "this is the server of dashter built with node, express, mongoose schema validation and use mongodb as a database",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --watch src --exec \"tsc --noEmit && node --loader ts-node/esm src/api/index.ts\"",
+    "local": "nodemon --watch src --exec \"tsc --noEmit && node --loader ts-node/esm src/api/index.ts\"",
     "start": "node api/index.js",
-    "production": "NODE_ENV=production node .dist/api/index.js",
+    "production": "NODE_ENV=production && tsc && node .build/api/index.js",
+    "dev": "NODE_ENV=development tsc && node .build/api/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "data:import": "node script/seed.js",
-    "product": "node script/product.js"
+    "product": "node script/product.js",
+    "build":"tsc"
   },
   "author": "kreench",
   "license": "ISC",
