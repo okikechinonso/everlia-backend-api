@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import AutoIncrementFactory from "mongoose-sequence";
 import { Order as OrderType } from "../types/order";
+
 
 const cash = "CASH";
 
@@ -99,10 +99,6 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
-orderSchema.plugin(AutoIncrementFactory, {
-  inc_field: "invoice",
-  start_seq: 10000,
-});
 
 const Order = mongoose.model<OrderType>("Order", orderSchema);
 
