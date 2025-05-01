@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { hashSync, compareSync } from "bcrypt-ts";
+import { hashSync, compareSync } from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import Customer from "../models/Customer";
@@ -305,7 +305,7 @@ export const changePassword = async (req: Request, res: Response): Promise<void>
         message: "For change password, you need to sign in with email & password!",
       });
     } else if (compareSync(req.body.currentPassword, customer.password)) {
-      customer.password = hashSync(req.body.newPassword);
+      customer.password = hashSync(req.body.newPassword, 14);
       await customer.save();
       res.send({
         message: "Your password changed successfully!",

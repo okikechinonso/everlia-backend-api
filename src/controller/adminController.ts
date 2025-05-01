@@ -1,4 +1,4 @@
-import { hashSync, compareSync } from "bcrypt-ts";
+import { hashSync, compareSync } from "bcrypt";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import jwt from "jsonwebtoken";

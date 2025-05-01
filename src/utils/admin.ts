@@ -1,4 +1,4 @@
-import {hashSync}  from "bcrypt-ts";
+import {hashSync}  from "bcrypt";
 const admins = [
   {
     name: {

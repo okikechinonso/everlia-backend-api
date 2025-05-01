@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { IAdmin as AdminType } from "../types/admin";
-import {hashSync} from "bcrypt-ts";
+import {hashSync} from "bcrypt";
 
 const adminSchema = new mongoose.Schema(
   {
@@ -43,7 +43,7 @@ const adminSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      default: hashSync("12345678"),
+      default: hashSync("12345678", 14),
     },
     role: {
       type: String,
