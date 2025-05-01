@@ -7,7 +7,7 @@
     "local": "nodemon --watch src --exec \"tsc --noEmit && node --loader ts-node/esm src/api/index.ts\"",
     "start": "node ./build/api/index.js",
     "production": "NODE_ENV=production && tsc && node .build/api/index.js",
-    "dev": "NODE_ENV=development echo node -v && tsc && node .build/api/index.js",
+    "dev": "NODE_ENV=development && export NODE_OPTIONS=\"--max-old-space-size=4096\" && echo $NODE_OPTIONS && node -v && tsc && node .build/api/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "data:import": "node script/seed.js",
     "product": "node script/product.js",
