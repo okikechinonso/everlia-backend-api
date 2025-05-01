@@ -2,10 +2,10 @@ import dotenv from "dotenv";
 import Stripe from "stripe";
 import mongoose from "mongoose";
 import { Request, Response } from "express";
-import Order from "../models/Order";
-import { handleProductQuantity } from "../lib/stock-controller/others";
-import { formatAmountForStripe } from "../lib/stripe/stripe";
-import { cloudinaryUploadToImage } from "../lib/file-upload/cloudinary";
+import Order from "../../models/Order";
+import { handleProductQuantity } from "../../lib/stock-controller/others";
+import { formatAmountForStripe } from "../../lib/stripe/stripe";
+import { cloudinaryUploadToImage } from "../../lib/file-upload/cloudinary";
 
 dotenv.config();
 

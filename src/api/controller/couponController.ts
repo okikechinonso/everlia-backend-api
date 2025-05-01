@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import Coupon from "../models/Coupon";
+import Coupon from "../../models/Coupon";
 
 dayjs.extend(utc);
 

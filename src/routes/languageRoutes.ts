@@ -10,7 +10,7 @@ import {
   deleteLanguage,
   updateManyLanguage,
   deleteManyLanguage,
-} from "../controller/languageController";
+} from "../api/controller/languageController";
 
 const router = express.Router();
 

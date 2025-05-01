@@ -3,7 +3,7 @@ import {
   addGlobalSetting,
   getGlobalSetting,
   updateGlobalSetting,
-} from "../controller/settingController";
+} from "../api/controller/settingController";
 
 const router = express.Router();
 

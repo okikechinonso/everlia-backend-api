@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Language from "../models/Language";
+import Language from "../../models/Language";
 
 export const addLanguage = async (req: Request, res: Response): Promise<void> => {
   try {

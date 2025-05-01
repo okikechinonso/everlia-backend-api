@@ -12,7 +12,7 @@ import {
   updateCustomer,
   deleteCustomer,
   addAllCustomers,
-} from "../controller/customerController";
+} from "../api/controller/customerController";
 import {
   passwordVerificationLimit,
   emailVerificationLimit,

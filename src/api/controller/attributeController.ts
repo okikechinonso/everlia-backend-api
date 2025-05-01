@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import Attribute from "../models/Attribute";
-import { handleProductAttribute } from "../lib/stock-controller/others";
-import { AttributeVariant } from "../types/attributes";
+import Attribute from "../../models/Attribute";
+import { handleProductAttribute } from "../../lib/stock-controller/others";
+import { AttributeVariant } from "../../types/attributes";
 
 export const addAttribute = async (req: Request, res: Response) => {
   try {

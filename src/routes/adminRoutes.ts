@@ -10,7 +10,7 @@ import {
   updateStaff,
   deleteStaff,
   updatedStatus,
-} from "../controller/adminController";
+} from "../api/controller/adminController";
 import { passwordVerificationLimit } from "../lib/email-sender/sender";
 
 const router = express.Router();

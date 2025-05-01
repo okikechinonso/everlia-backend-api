@@ -11,7 +11,7 @@ import {
   deleteCategory,
   deleteManyCategory,
   updateManyCategory,
-} from "../controller/categoryController";
+} from "../api/controller/categoryController";
 
 const router = express.Router();
 

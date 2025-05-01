@@ -1,18 +1,50 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import Product from "../models/Product";
-import Category from "../models/Category";
+import Product from "../../models/Product";
+import Category from "../../models/Category";
+import { cloudinaryUploadToImage } from "../../lib/file-upload/cloudinary";
+import { validateCreateProduct } from "../request/product";
 
 export const addProduct = async (req: Request, res: Response): Promise<void> => {
   try {
+    const {error, value} =validateCreateProduct(req.body);
+    if (error) {
+      res.status(400).send({
+        message: error.details[0].message,
+      });
+      return;
+    }
+
     const newProduct = new Product({
       ...req.body,
-      productId: req.body.productId || mongoose.Types.ObjectId(),
     });
 
+    const images: string[] = [];
+    if (newProduct.variants) {
+      for (let i = 0; i < newProduct.variants.length; i++) {
+        const image = newProduct.variants[i].image;
+        if (image) {
+          const imageUrl = await cloudinaryUploadToImage(image);
+          images.push(imageUrl.secure_url);
+          console.log("Image URL: ", imageUrl.secure_url);
+          newProduct.variants[i].image = imageUrl.secure_url;
+        }
+      } 
+    }else {
+      for (let i = 0; i < newProduct.image?.length; i++) {
+        const image = newProduct.image[i];
+        if (image) {
+          const imageUrl = await cloudinaryUploadToImage(image);
+          images.push(imageUrl.secure_url);
+        }
+      }
+    }
+
+    newProduct.image = images;
     await newProduct.save();
     res.send(newProduct);
   } catch (err) {
+    console.error("Error adding product:", err);
     res.status(500).send({
       message: (err as Error).message,
     });

@@ -4,7 +4,7 @@ import {
   getOrderById,
   getOrderCustomer,
   createPaymentIntent,
-} from "../controller/customerOrderController";
+} from "../api/controller/customerOrderController";
 
 const router = express.Router();
 

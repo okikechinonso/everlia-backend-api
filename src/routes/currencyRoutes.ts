@@ -11,7 +11,7 @@ import {
   updateLiveExchangeRateStatus,
   deleteCurrency,
   deleteManyCurrency,
-} from "../controller/currencyController";
+} from "../api/controller/currencyController";
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Setting from "../models/Setting";
+import Setting from "../../models/Setting";
 
 export const addGlobalSetting = async (req: Request, res: Response): Promise<void> => {
   try {

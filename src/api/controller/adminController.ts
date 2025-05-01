@@ -2,9 +2,9 @@ import { hashSync, compareSync } from "bcrypt";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import jwt from "jsonwebtoken";
-import { signInToken, tokenForVerify } from "../config/auth";
-import { sendEmail } from "../lib/email-sender/sender";
-import Admin from "../models/Admin";
+import { signInToken, tokenForVerify } from "../../config/auth";
+import { sendEmail } from "../../lib/email-sender/sender";
+import Admin from "../../models/Admin";
 import { Request, Response } from "express";
 
 

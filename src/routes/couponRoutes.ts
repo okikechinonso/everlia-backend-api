@@ -10,7 +10,7 @@ import {
   deleteCoupon,
   updateManyCoupons,
   deleteManyCoupons,
-} from "../controller/couponController";
+} from "../api/controller/couponController";
 
 const router = express.Router();
 

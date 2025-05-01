@@ -12,7 +12,7 @@ import {
   deleteProduct,
   deleteManyProducts,
   getShowingStoreProducts,
-} from "../controller/productController";
+} from "../api/controller/productController";
 
 const router = express.Router();
 

@@ -2,11 +2,11 @@ import dotenv from "dotenv";
 import { hashSync, compareSync } from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
-import Customer from "../models/Customer";
-import { signInToken, tokenForVerify } from "../config/auth";
-import { sendEmail } from "../lib/email-sender/sender";
-import { customerRegisterBody } from "../lib/email-sender/templates/register";
-import { forgetPasswordEmailBody } from "../lib/email-sender/templates/forget-password";
+import Customer from "../../models/Customer";
+import { signInToken, tokenForVerify } from "../../config/auth";
+import { sendEmail } from "../../lib/email-sender/sender";
+import { customerRegisterBody } from "../../lib/email-sender/templates/register";
+import { forgetPasswordEmailBody } from "../../lib/email-sender/templates/forget-password";
 
 dotenv.config();
 

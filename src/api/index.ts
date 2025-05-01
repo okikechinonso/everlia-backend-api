@@ -16,7 +16,7 @@ import attributeRoutes from "../routes/attributeRoutes";
 import settingRoutes from "../routes/settingRoutes";
 import currencyRoutes from "../routes/currencyRoutes";
 import languageRoutes from "../routes/languageRoutes";
-import { isAuth, isAdmin } from "../config/auth";
+import { isAuth } from "../config/auth";
 
 dotenv.config();
 

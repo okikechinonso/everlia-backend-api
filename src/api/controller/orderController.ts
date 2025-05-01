@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import Order from "../models/Order";
+import Order from "../../models/Order";
 
 export const getAllOrders = async (req: Request, res: Response): Promise<void> => {
   const { customerName, status, page, limit, day, startDate, endDate } = req.query;

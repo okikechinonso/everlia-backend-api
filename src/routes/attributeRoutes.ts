@@ -18,7 +18,7 @@ import {
   deleteManyAttribute,
   updateManyChildAttribute,
   deleteManyChildAttribute,
-} from "../controller/attributeController";
+} from "../api/controller/attributeController";
 
 const router = express.Router();
 

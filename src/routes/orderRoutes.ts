@@ -10,7 +10,7 @@ import {
   getDashboardRecentOrder,
   getDashboardCount,
   getDashboardAmount,
-} from "../controller/orderController";
+} from "../api/controller/orderController";
 
 const router = express.Router();
 

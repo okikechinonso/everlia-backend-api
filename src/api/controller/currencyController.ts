@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import Currency from "../models/Currency";
-import { Currency as CurrencyType } from "../types/currency";
+import Currency from "../../models/Currency";
+import { Currency as CurrencyType } from "../../types/currency";
 
 export const addCurrency = async (req: Request, res: Response): Promise<void> => {
   try {
