@@ -9,8 +9,8 @@
     "production": "NODE_ENV=production && tsc && node .build/api/index.js",
     "dev": "NODE_ENV=development && export NODE_OPTIONS=\"--max-old-space-size=4096\" && echo $NODE_OPTIONS && node -v && tsc && node .build/api/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "data:import": "node script/seed.js",
-    "product": "node script/product.js",
+    "data:import": "node .build/script/seed.js",
+    "product": "node .build/script/product.js",
     "build": "tsc"
   },
   "author": "kreench",
