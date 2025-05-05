@@ -10,7 +10,7 @@ const categories = Joi.object({
 });
 
 const variant = Joi.object({
-    price: Joi.number().precision(2).required(),
+    attributeId: Joi.string().optional,
     originalPrice: Joi.string().regex(/^\d+(\.\d{2})?$/).required(),
     quantity: Joi.number().integer().min(0).required(),
     discount: Joi.string().regex(/^\d+(\.\d{2})?$/).required(),
