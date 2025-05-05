@@ -22,9 +22,10 @@ const variant = Joi.object({
 export const productSchema = Joi.object<Product>({
   barcode: Joi.string().allow(null, ''),
   title: Joi.object().required(),
+  sku: Joi.string().optional().allow(null, ''),
   description: Joi.object().optional(),
   slug: Joi.string().required(),
-  categories: Joi.array().items(categories).required(),
+  categories: Joi.array().items(categories).optional(),
   image: Joi.when("variants", {
     is: Joi.exist(),
     then: Joi.array().items(Joi.string()).optional(),

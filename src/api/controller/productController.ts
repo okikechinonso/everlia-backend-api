@@ -26,27 +26,25 @@ export const addProduct = async (req: Request, res: Response): Promise<void> => 
         if (image) {
           const imageUrl = await cloudinaryUploadToImage(image);
           images.push(imageUrl.secure_url);
-          console.log("Image URL: ", imageUrl.secure_url);
           newProduct.variants[i].image = imageUrl.secure_url;
         }
       } 
-    }else {
-      for (let i = 0; i < newProduct.image?.length; i++) {
-        const image = newProduct.image[i];
-        if (image) {
-          const imageUrl = await cloudinaryUploadToImage(image);
-          images.push(imageUrl.secure_url);
-        }
+    }
+    
+    for (let i = 0; i < newProduct.image?.length; i++) {
+      const image = newProduct.image[i];
+      if (image) {
+        const imageUrl = await cloudinaryUploadToImage(image);
+        images.push(imageUrl.secure_url);
       }
     }
-
     newProduct.image = images;
     await newProduct.save();
     res.send(newProduct);
   } catch (err) {
     console.error("Error adding product:", err);
     res.status(500).send({
-      message: (err as Error).message,
+      message: err,
     });
   }
 };
