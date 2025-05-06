@@ -6,16 +6,13 @@ export const getAllOrders = async (req: Request, res: Response): Promise<void> =
   const { customerName, status, page, limit, day, startDate, endDate } = req.query;
 
   const date = new Date();
-  const today = date.toISOString();
+  const today = date
   date.setDate(date.getDate() - Number(day));
-  const dateTime = date.toISOString();
 
   const beforeToday = new Date();
   beforeToday.setDate(beforeToday.getDate() - 1);
-  const beforeTodayISO = beforeToday.toISOString();
 
   const startDateData = new Date(startDate as string);
-  const startDateISO = startDateData.toISOString();
 
   const queryObject: Record<string, any> = {};
 
@@ -27,7 +24,7 @@ export const getAllOrders = async (req: Request, res: Response): Promise<void> =
       { status: { $regex: "Cancel", $options: "i" } },
     ];
   }
-
+ 
   if (customerName) {
     queryObject.$or = [
       { "user_info.name": { $regex: customerName as string, $options: "i" } },
@@ -36,7 +33,7 @@ export const getAllOrders = async (req: Request, res: Response): Promise<void> =
   }
 
   if (day) {
-    queryObject.createdAt = { $gte: dateTime, $lte: today };
+    queryObject.createdAt = { $gte: date, $lte: today };
   }
 
   if (status) {
@@ -45,8 +42,8 @@ export const getAllOrders = async (req: Request, res: Response): Promise<void> =
 
   if (startDate && endDate) {
     queryObject.updatedAt = {
-      $gte: startDateISO,
-      $lte: beforeTodayISO,
+      $gte: startDateData,
+      $lte: beforeToday,
     };
   }
 

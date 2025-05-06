@@ -310,6 +310,7 @@ export const getShowingStoreProducts = async (req: Request, res: Response): Prom
       relatedProduct,
     });
   } catch (err) {
+    console.log(err);
     res.status(500).send({
       message: (err as Error).message,
     });

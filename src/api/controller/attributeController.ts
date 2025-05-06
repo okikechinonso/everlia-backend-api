@@ -143,7 +143,8 @@ export const addAllAttributes = async (req: Request, res: Response) => {
 export const getAllAttributes = async (req: Request, res: Response) => {
   try {
     const { type, option, option1 } = req.query;
-    const attributes = await Attribute.find({ $or: [{ type: type as "attribute" | "extra" }, { option: option as "Dropdown" | "Radio" | "Checkbox" }, { option: option1 as "Dropdown" | "Radio" | "Checkbox" }] });
+    const attributes = await Attribute.find(
+    );
     res.send(attributes);
   } catch (err) {
     res.status(500).send({
