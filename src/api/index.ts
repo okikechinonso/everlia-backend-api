@@ -17,6 +17,7 @@ import settingRoutes from "../routes/settingRoutes";
 import currencyRoutes from "../routes/currencyRoutes";
 import languageRoutes from "../routes/languageRoutes";
 import { isAuth } from "../config/auth";
+import logger from "./middleware/logger";
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ const app = express();
 app.set("trust proxy", 1);
 
 app.use(express.json({ limit: "4mb" }));
+app.use(logger())
 app.use(helmet());
 app.use(cors());
 
