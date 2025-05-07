@@ -22,14 +22,14 @@ router.post("/add", addProduct);
 // Add multiple products
 router.post("/all", addAllProducts);
 
+// Get showing products only
+router.get("/list/show", getShowingProducts);
+
 // Get a product by ID
 router.get("/:id", getProductById);
 
-// Get showing products only
-router.get("/show", getShowingProducts);
-
 // Get showing products in store
-router.get("/store", getShowingStoreProducts);
+router.get("/list/store", getShowingStoreProducts);
 
 // Get all products
 router.get("/", getAllProducts);
