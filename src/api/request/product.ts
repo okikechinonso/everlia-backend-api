@@ -11,7 +11,8 @@ const categories = Joi.object({
 
 const variant = Joi.object({
     attributeId: Joi.string().optional,
-    originalPrice: Joi.string().regex(/^\d+(\.\d{2})?$/).required(),
+    originalPrice: Joi.number().required(),
+    price: Joi.number().required(),
     quantity: Joi.number().integer().min(0).required(),
     discount: Joi.string().regex(/^\d+(\.\d{2})?$/).required(),
     productId: Joi.string().pattern(/^[0-9a-f]{24}-\d+$/).required(),
@@ -26,11 +27,7 @@ export const productSchema = Joi.object<Product>({
   description: Joi.object().optional(),
   slug: Joi.string().required(),
   categories: Joi.array().items(categories).optional(),
-  image: Joi.when("variants", {
-    is: Joi.exist(),
-    then: Joi.array().items(Joi.string()).optional(),
-    otherwise: Joi.array().items(Joi.string()).required()
-  }),
+  image: Joi.array().items(Joi.string()).required(),
   category: categories,
   stock: Joi.number().required(),
   tag: Joi.array().items(Joi.string()).optional(),
