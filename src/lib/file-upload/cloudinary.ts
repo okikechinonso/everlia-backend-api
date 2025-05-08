@@ -1,4 +1,7 @@
 import { v2 as cloudinary, UploadApiResponse, UploadApiOptions } from "cloudinary";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // Return "https" URLs by setting secure: true
 cloudinary.config({
