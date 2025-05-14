@@ -12,6 +12,7 @@ dayjs.extend(utc);
 
 export const registerAdmin = async (req: Request, res: Response)=> {
   try {
+    console.log(req.body)
     const isAdded = await Admin.findOne({ email: req.body.email });
     if (isAdded) {
        res.status(403).send({
@@ -46,7 +47,7 @@ export const registerAdmin = async (req: Request, res: Response)=> {
 
 export const loginAdmin = async (req: Request, res: Response) => {
   try {
-    const admin = await Admin.findOne({ email: req.body.email });
+    const admin = await Admin.findOne({ email: req.body.email, status: "Active" });
     if (admin && compareSync(req.body.password, admin.password)) {
       const token = signInToken(admin);
       res.send({
@@ -144,11 +145,11 @@ export const addStaff = async (req: Request, res: Response) => {
       return
     } else {
       const newStaff = new Admin({
-        name: { ...req.body.staffData.name },
+        name: req.body.staffData.name,
         email: req.body.staffData.email,
         password: hashSync(req.body.staffData.password, 14),
         phone: req.body.staffData.phone,
-        joiningDate: req.body.staffData.joiningDate,
+        joiningDate: req.body.staffData.joiningDate ? req.body.staffData.joiningDate : new Date(),
         role: req.body.staffData.role,
         image: req.body.staffData.image,
       });

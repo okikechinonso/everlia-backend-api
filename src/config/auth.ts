@@ -30,7 +30,6 @@ export const tokenForVerify = (user: User): string => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      password: user.password,
     },
     process.env.JWT_SECRET_FOR_VERIFY as string,
     { expiresIn: "15m" }
