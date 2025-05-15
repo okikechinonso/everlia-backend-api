@@ -1,7 +1,7 @@
 export interface Order {
     user: string; 
     invoice?: number;
-    cart: Record<string, any>[]; 
+    cart: Cart[]; 
     user_info?: {
       name?: string;
       email?: string;
@@ -23,5 +23,32 @@ export interface Order {
     cardInfo?: Record<string, any>; // Assuming `cardInfo` is an object
     status?: "Pending" | "Processing" | "Delivered" | "Cancel"; // Enum values for `status`
     createdAt?: Date; 
-    updatedAt?: Date; 
+    updatedAt?: Date;
+    deletedAt?: Date;
+    isDeleted?: boolean;
+    deletedBy?: string; 
   }
+
+export type Cart = {
+  image: string[];
+  status: string;
+  productId: string;
+  title: string;
+  category: {
+    _id: string;
+    name: {
+      en: string;
+    };
+  };
+  stock: number;
+  id: string;
+  variant: {
+    discount: number;
+    originalPrice: number;
+    price: number;
+  };
+  price: number;
+  originalPrice: number;
+  quantity: number;
+  itemTotal: number;
+};

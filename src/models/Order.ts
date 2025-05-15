@@ -89,6 +89,18 @@ const orderSchema = new mongoose.Schema(
       type: Object,
       required: false,
     },
+    deletedAt: {
+      type: Date,
+      required: false,
+    },
+    isDeleted: {
+      type: Boolean,
+      required: false,
+    },
+    deletedBy: {
+      type: String,
+      required: false,
+    },
     status: {
       type: String,
       enum: ["Pending", "Processing", "Delivered", "Cancel"],

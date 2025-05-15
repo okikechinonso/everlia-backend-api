@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import Order from "../../models/Order";
+import { handleProductQuantity } from "../../lib/stock-controller/others";
 
 export const getAllOrders = async (req: Request, res: Response): Promise<void> => {
   const { customerName, status, page, limit, day, startDate, endDate } = req.query;
@@ -115,7 +116,14 @@ export const updateOrder = async (req: Request, res: Response): Promise<void> =>
 
 export const deleteOrder = async (req: Request, res: Response): Promise<void> => {
   try {
-    await Order.deleteOne({ _id: req.params.id });
+    await Order.updateOne({ _id: req.params.id }, { deletedAt: new Date(), isDeleted: true, status: "Cancel"});
+    const order = await Order.findOne({_id: req.params.id})
+    const cart = order?.cart.map((e) => {
+      e.quantity = -e.quantity
+      return e
+    })
+    
+    if (cart) await  handleProductQuantity(cart);
     res.status(200).send({
       message: "Order Deleted Successfully!",
     });

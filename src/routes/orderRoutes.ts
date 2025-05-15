@@ -11,6 +11,7 @@ import {
   getDashboardCount,
   getDashboardAmount,
 } from "../api/controller/orderController";
+import { isAdmin, isAuth } from "../config/auth";
 
 const router = express.Router();
 
@@ -42,6 +43,6 @@ router.get("/:id", getOrderById);
 router.put("/:id", updateOrder);
 
 // Delete an order
-router.delete("/:id", deleteOrder);
+router.delete("/:id", isAuth, deleteOrder);
 
 export default router;

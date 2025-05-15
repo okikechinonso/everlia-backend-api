@@ -26,6 +26,8 @@ export const addOrder = async (req: Request, res: Response): Promise<void> => {
       paymentReceipt: imgResponse.secure_url,
     });
 
+    newOrder.invoice = Math.floor(new Date().getTime() / 1000) 
+
     const order = await newOrder.save();
     res.status(201).send(order);
     handleProductQuantity(order.cart);
