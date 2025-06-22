@@ -5,7 +5,7 @@ import { AttributeVariant } from "../../types/attributes";
 
 export const addAttribute = async (req: Request, res: Response) => {
   try {
-    const newAttribute = new Attribute(req.body);
+    const newAttribute = new Attribute({...req.body});
     await newAttribute.save();
     res.send({
       message: "Attribute Added Successfully!",
@@ -71,7 +71,7 @@ export const getChildAttributeById = async (req: Request, res: Response): Promis
       _id: id,
     });
 
-    const childAttribute = attribute?.variants.find((attr: any) => {
+    const childAttribute = attribute?.variants?.find((attr: any) => {
       return attr._id == ids;
     });
 
@@ -224,7 +224,7 @@ export const updateChildAttributes = async (req: Request, res: Response) => {
     });
 
     if (attribute) {
-      const att = attribute.variants.find((v: AttributeVariant) => v._id.toString() === childId);
+      const att = attribute.variants?.find((v: AttributeVariant) => v._id.toString() === childId);
       if (!att) {
          res.status(404).send({
           message: "Attribute value not found!",
@@ -260,8 +260,13 @@ export const updateChildAttributes = async (req: Request, res: Response) => {
 export const updateManyChildAttribute = async (req: Request, res: Response) => {
   try {
     const childIdAttribute = await Attribute.findById(req.body.currentId);
-
-    const final = childIdAttribute?.variants.filter((value: AttributeVariant) =>
+    if (!childIdAttribute) {
+      res.status(404).send({
+        message: "Attribute not found!",
+      });
+      return;
+    }
+    const final = childIdAttribute?.variants?.filter((value: AttributeVariant) =>
       req.body.ids.find((value1: string) => value1 === value._id.toString())
     );
 

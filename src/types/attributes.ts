@@ -10,7 +10,7 @@ export interface AttributeVariant {
     status: "show" | "hide";
     title: object;
     name: object;
-    variants: AttributeVariant[];
+    variants?: AttributeVariant[];
     option: "Dropdown" | "Radio" | "Checkbox";
     createdAt: Date;
     updatedAt: Date;
