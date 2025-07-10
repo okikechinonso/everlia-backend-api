@@ -7,7 +7,7 @@ export const sendSupportMessage = (option: any) => {
 >
 
   <head>
-    <title>Kachabazar</title>
+    <title>Everlia</title>
     <!--[if !mso]><!-->
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
     <!--<![endif]-->
@@ -105,7 +105,7 @@ export const sendSupportMessage = (option: any) => {
                                           <img
                                             alt
                                             height='auto'
-                                            src='https://res.cloudinary.com/ahossain/image/upload/v1676296566/Kachabazar%20files/cc_v8jite.png'
+                                            src='https://res.cloudinary.com/ahossain/image/upload/v1676296566/Everlia%20files/cc_v8jite.png'
                                             style='border:0;display:block;outline:none;text-decoration:none;height:auto;width:80px;font-size:13px;padding-bottom:30px;'
                                             width='80'
                                             height='80'
@@ -204,7 +204,7 @@ export const sendSupportMessage = (option: any) => {
                           >
                             <!--start email_template -->
                             <h2>Hello ${option.name}</h2>
-                            <p>Thank you for contacting Kachabazar. We got the
+                            <p>Thank you for contacting Everlia. We got the
                               following message from you.
                             </p>
 
@@ -226,7 +226,7 @@ export const sendSupportMessage = (option: any) => {
                             >Thank you
                               <h4
                                 style='margin:1px; margin-bottom:0px; text-align:center;'
-                              >Kachabazar Team</h4></p>
+                              >Everlia Team</h4></p>
 
                             <!--end email_template -->
                           </div>
@@ -351,7 +351,7 @@ export const sendSupportMessage = (option: any) => {
                                                         You are receiving this
                                                         email because you
                                                         registered with
-                                                        Kachabazar and agreed
+                                                        Everlia and agreed
                                                         to receive emails from
                                                         us regarding new
                                                         features, events and
@@ -359,7 +359,7 @@ export const sendSupportMessage = (option: any) => {
                                                         <p
                                                           style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:11px;font-weight:400;line-height:16px;text-align:center;color:#303030;"
                                                         >
-                                                          &copy; Kachabazar,
+                                                          &copy; Everlia,
                                                           All Rights Reserved.</p></div>
                                                     </td>
                                                   </tr>

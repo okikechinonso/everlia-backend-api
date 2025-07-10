@@ -4,6 +4,7 @@ import Product from "../../models/Product";
 import Category from "../../models/Category";
 import { cloudinaryUploadToImage } from "../../lib/file-upload/cloudinary";
 import { validateCreateProduct } from "../request/product";
+import { create } from "domain";
 
 export const addProduct = async (req: Request, res: Response): Promise<void> => {
   try {
