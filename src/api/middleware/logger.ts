@@ -12,7 +12,7 @@ const logger = (options?: any) => {
         const durationMs = Number(process.hrtime.bigint() - start) / 1e6;
         const { statusCode } = res;
   
-        let msg = `[${timestamp}] ${method} ${originalUrl} → ${statusCode} (${durationMs.toFixed(2)} ms)`;
+        console.log( `[${timestamp}] ${method} ${originalUrl} → ${statusCode} (${durationMs.toFixed(2)} ms)`);
       });
   
       next();
