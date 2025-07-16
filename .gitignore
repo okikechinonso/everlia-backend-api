@@ -8,3 +8,5 @@ node_modules
 note.txt
 
 .clinic
+
+output.log
