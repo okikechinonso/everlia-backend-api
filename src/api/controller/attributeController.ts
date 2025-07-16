@@ -6,9 +6,10 @@ import { AttributeVariant } from "../../types/attributes";
 export const addAttribute = async (req: Request, res: Response) => {
   try {
     const newAttribute = new Attribute({...req.body});
-    await newAttribute.save();
+    const attribute = await newAttribute.save();
     res.send({
       message: "Attribute Added Successfully!",
+      data: attribute
     });
   } catch (err) {
     res.status(500).send({
@@ -351,6 +352,7 @@ export const updateStatus = async (req: Request, res: Response) => {
 };
 
 export const deleteAttribute = async (req: Request, res: Response) => {
+  console.log("here", req.params.id  )
   try {
     await Attribute.deleteOne({ _id: req.params.id });
     res.send({

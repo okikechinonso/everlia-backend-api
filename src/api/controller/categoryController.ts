@@ -4,9 +4,10 @@ import Category from "../../models/Category";
 export const addCategory = async (req: Request, res: Response): Promise<void> => {
   try {
     const newCategory = new Category(req.body);
-    await newCategory.save();
+    const category = await newCategory.save();
     res.status(200).send({
       message: "Category Added Successfully!",
+      data: category
     });
   } catch (err) {
     res.status(500).send({
