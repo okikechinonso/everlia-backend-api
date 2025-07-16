@@ -1,8 +1,0 @@
-
-> everlia-backend-api@0.1.0 start
-> node .build/api/index.js
-
-Server running on port 5055
-(node:53748) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-MongoDB connection success!
