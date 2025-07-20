@@ -2,6 +2,7 @@ export interface Category {
     name: Record<string, any>; 
     description?: Record<string, any>;
     slug?: string;
+    image?: string;
     parentId?: string;
     parentName?: string;
     id?: string;

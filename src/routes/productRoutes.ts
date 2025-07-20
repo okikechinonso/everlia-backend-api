@@ -12,6 +12,7 @@ import {
   deleteProduct,
   deleteManyProducts,
   getShowingStoreProducts,
+  updateImage,
 } from "../api/controller/productController";
 
 const router = express.Router();
@@ -48,6 +49,9 @@ router.put("/status/:id", updateStatus);
 
 // Delete a product
 router.delete("/:id", deleteProduct);
+
+// update product image
+router.put("/:id/image", updateImage);
 
 // Delete many products
 router.patch("/delete/many", deleteManyProducts);

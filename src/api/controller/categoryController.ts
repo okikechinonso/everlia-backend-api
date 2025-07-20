@@ -1,9 +1,16 @@
 import { Request, Response } from "express";
 import Category from "../../models/Category";
+import { cloudinaryUploadToImage } from "../../lib/file-upload/cloudinary";
+import { image } from "pdfkit";
 
 export const addCategory = async (req: Request, res: Response): Promise<void> => {
   try {
     const newCategory = new Category(req.body);
+    if(newCategory.image) {
+      const upload = await cloudinaryUploadToImage(newCategory.image)
+      newCategory.image = upload.secure_url
+    }
+
     const category = await newCategory.save();
     res.status(200).send({
       message: "Category Added Successfully!",
@@ -34,6 +41,7 @@ export const getShowingCategory = async (req: Request, res: Response): Promise<v
   try {
     const categories = await Category.find({ status: "show" }).sort({ _id: -1 });
     const categoryList = readyToParentAndChildrenCategory(categories);
+    console.log(categories)
     res.send(categoryList);
   } catch (err) {
     res.status(500).send({
@@ -130,7 +138,7 @@ export const updateManyCategory = async (req: Request, res: Response): Promise<v
 
 export const updateStatus = async (req: Request, res: Response): Promise<void> => {
   try {
-    const newStatus = req.body.status;
+    const newStatus = req.body.status
 
     await Category.updateOne(
       { _id: req.params.id },
@@ -197,6 +205,7 @@ const readyToParentAndChildrenCategory = (
       parentId: cate.parentId,
       parentName: cate.parentName,
       description: cate.description,
+      image: cate.image,
       icon: cate.icon,
       status: cate.status,
       children: readyToParentAndChildrenCategory(categories, cate._id),

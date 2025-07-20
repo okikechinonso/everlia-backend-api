@@ -171,6 +171,18 @@ export const getProductById = async (req: Request, res: Response): Promise<void>
   }
 };
 
+export const updateImage = async (req: Request, res: Response): Promise<void> => {
+  try {
+   const url = await  cloudinaryUploadToImage(req.body[0])
+   await Product.updateOne({_id: req.params.id}, {$set: {image: [url.secure_url]}})
+    res.send({message: "successfully updated image"});
+  } catch (err) {
+    res.status(500).send({
+      message: (err as Error).message,
+    });
+  }
+};
+
 export const updateProduct = async (req: Request, res: Response): Promise<void> => {
   try {
     const product = await Product.findById(req.params.id);
@@ -189,8 +201,10 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
       product.variants = req.body.variants;
       product.stock = req.body.stock;
       product.prices = req.body.prices;
-      product.image = req.body.image;
+      // product.image = req.body.image;
       product.tag = req.body.tag;
+
+
 
       await product.save();
       res.send({ data: product, message: "Product updated successfully!" });
