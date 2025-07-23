@@ -41,7 +41,6 @@ export const getShowingCategory = async (req: Request, res: Response): Promise<v
   try {
     const categories = await Category.find({ status: "show" }).sort({ _id: -1 });
     const categoryList = readyToParentAndChildrenCategory(categories);
-    console.log(categories)
     res.send(categoryList);
   } catch (err) {
     res.status(500).send({
@@ -94,6 +93,12 @@ export const updateCategory = async (req: Request, res: Response): Promise<void>
       category.status = req.body.status;
       category.parentId = req.body.parentId || category.parentId;
       category.parentName = req.body.parentName;
+      console.log(req.body)
+      if (req.body.newImage) {
+       console.log(req.body.newImage)
+       const cloudinaryResp = await cloudinaryUploadToImage(req.body.newImage)
+       category.image = cloudinaryResp.secure_url
+      }
 
       await category.save();
       res.send({ message: "Category Updated Successfully!" });
