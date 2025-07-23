@@ -5,6 +5,8 @@ port_to_free=5055
 
 chmod +x "deploy.sh"
 
+git pull
+
 npm install
 
 npm run build
