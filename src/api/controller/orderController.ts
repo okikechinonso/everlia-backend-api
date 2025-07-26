@@ -21,8 +21,11 @@ export const getAllOrders = async (req: Request, res: Response): Promise<void> =
     queryObject.$or = [
       { status: { $regex: "Pending", $options: "i" } },
       { status: { $regex: "Processing", $options: "i" } },
+      { status: { $regex: "Payment confirmation", $options: "i" } },
+      { status: { $regex: "Shipped", $options: "i" } },
+      { status: { $regex: "Completed", $options: "i" } },
       { status: { $regex: "Delivered", $options: "i" } },
-      { status: { $regex: "Cancel", $options: "i" } },
+      { status: { $regex: "Cancelled", $options: "i" } },
     ];
   }
  
@@ -56,7 +59,7 @@ export const getAllOrders = async (req: Request, res: Response): Promise<void> =
     const totalDoc = await Order.countDocuments(queryObject);
     const orders = await Order.find(queryObject)
       .select(
-        "_id invoice paymentMethod subTotal total user_info discount shippingCost status createdAt updatedAt"
+        "_id invoice paymentMethod subTotal total user_info discount shippingCost paymentReceipt status createdAt updatedAt"
       )
       .sort({ updatedAt: -1 })
       .skip(skip)
@@ -97,7 +100,7 @@ export const getOrderById = async (req: Request, res: Response): Promise<void> =
   }
 };
 
-export const updateOrder = async (req: Request, res: Response): Promise<void> => {
+export const updateOrderStatus = async (req: Request, res: Response): Promise<void> => {
   try {
     const newStatus = req.body.status;
     await Order.updateOne(

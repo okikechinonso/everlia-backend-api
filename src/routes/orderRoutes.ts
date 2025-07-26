@@ -3,7 +3,7 @@ import {
   getAllOrders,
   getOrderById,
   getOrderCustomer,
-  updateOrder,
+  updateOrderStatus,
   deleteOrder,
   bestSellerProductChart,
   getDashboardOrders,
@@ -40,7 +40,7 @@ router.get("/customer/:id", getOrderCustomer);
 router.get("/:id", getOrderById);
 
 // Update an order
-router.put("/:id", updateOrder);
+router.put("/:id/status", updateOrderStatus);
 
 // Delete an order
 router.delete("/:id", isAuth, deleteOrder);
