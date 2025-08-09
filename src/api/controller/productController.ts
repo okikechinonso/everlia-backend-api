@@ -5,7 +5,7 @@ import Category from "../../models/Category";
 import { cloudinaryUploadToImage } from "../../lib/file-upload/cloudinary";
 import { validateCreateProduct } from "../request/product";
 import { create } from "domain";
-
+import { ObjectId } from 'mongodb';
 export const addProduct = async (req: Request, res: Response): Promise<void> => {
   try {
     const {error, value} =validateCreateProduct(req.body);
@@ -297,9 +297,14 @@ export const getShowingStoreProducts = async (req: Request, res: Response): Prom
     const { category, title } = req.query;
 
     if (category) {
-      queryObject.categories = { $in: [category] };
-    }
 
+      queryObject.category = new ObjectId()
+      queryObject.$or = [
+        //  { categories: { $in: [category]} },
+         {category: new ObjectId(category as string) }
+      ]
+    }
+    console.log(queryObject)
     if (title) {
       queryObject.$or = [
         { "title.en": { $regex: title as string, $options: "i" } },
