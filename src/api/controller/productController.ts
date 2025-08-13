@@ -297,10 +297,7 @@ export const getShowingStoreProducts = async (req: Request, res: Response): Prom
     const { category, title } = req.query;
 
     if (category) {
-
-      queryObject.category = new ObjectId()
       queryObject.$or = [
-        //  { categories: { $in: [category]} },
          {category: new ObjectId(category as string) }
       ]
     }
