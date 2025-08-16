@@ -4,8 +4,9 @@ import Product from "../../models/Product";
 import Category from "../../models/Category";
 import { cloudinaryUploadToImage } from "../../lib/file-upload/cloudinary";
 import { validateCreateProduct } from "../request/product";
-import { create } from "domain";
 import { ObjectId } from 'mongodb';
+
+
 export const addProduct = async (req: Request, res: Response): Promise<void> => {
   try {
     const {error, value} =validateCreateProduct(req.body);
@@ -161,7 +162,8 @@ export const getProductById = async (req: Request, res: Response): Promise<void>
   try {
     const product = await Product.findById(req.params.id)
       .populate({ path: "category", select: "_id name" })
-      .populate({ path: "categories", select: "_id name" });
+      .populate({ path: "categories", select: "_id name" })
+      .populate({ path: "brand", select: "_id name" });
 
     res.send(product);
   } catch (err) {

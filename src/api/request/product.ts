@@ -42,7 +42,29 @@ export const productSchema = Joi.object<Product>({
   isCombination: Joi.boolean().default(false),
 });
 
+export const addProductSchema = Joi.object<Product>({
+  barcode: Joi.string().allow(null, ''),
+  title: Joi.object().required(),
+  sku: Joi.string().optional().allow(null, ''),
+  description: Joi.object().optional(),
+  slug: Joi.string().required(),
+  brand: Joi.string().optional(),
+  categories: Joi.array().items(categories).optional(),
+  image: Joi.array().items(Joi.string()).required(),
+  category: Joi.string(),
+  stock: Joi.number().required(),
+  tag: Joi.array().items(Joi.string()).optional(),
+  prices: Joi.object({
+    originalPrice: Joi.number().required(),
+    price: Joi.number().required(),
+    discount: Joi.number().optional()
+  }).required(),
+  variants: Joi.array().items(variant).optional(),
+  status: Joi.string().valid('show', 'hide').optional(),
+  isCombination: Joi.boolean().default(false),
+});
+
 export function validateCreateProduct(product: any): Joi.ValidationResult {
-  return productSchema.validate(product);
+  return addProductSchema.validate(product);
 }
 
