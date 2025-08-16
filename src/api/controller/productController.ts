@@ -121,7 +121,7 @@ export const getAllProducts = async (req: Request, res: Response): Promise<void>
   }
 
   const pages = Number(page) || 1;
-  const limits = Number(limit) || 10;
+  const limits = Number(limit) || 50;
   const skip = (pages - 1) * limits;
 
   try {
@@ -296,28 +296,42 @@ export const deleteManyProducts = async (req: Request, res: Response): Promise<v
 export const getShowingStoreProducts = async (req: Request, res: Response): Promise<void> => {
   try {
     const queryObject: Record<string, any> = { status: "show" };
-    const { category, title, brand } = req.query;
 
-    if (category) {
-      queryObject.$or = [
-        { category: new ObjectId(category as string) }
-      ]
+    if (req.query.category) {
+      try {
+        queryObject.$or = [
+          { category: new ObjectId(req.query.category as string) }
+        ]
+      } catch (error) {
+        if (req.query._id) {
+          const categoryid = req.query._id;
+          queryObject.$or = [
+            { category: new ObjectId(categoryid as string) }
+          ]
+
+        }
+      }
+
     }
 
-    if (brand) {
-      queryObject.brand = brand
+    if (req.query.brand) {
+      queryObject.brand = req.query.brand
     }
 
-    if (title) {
+
+    if (req.query.title) {
       queryObject.$or = [
-        { "title.en": { $regex: title as string, $options: "i" } },
-        { "title.de": { $regex: title as string, $options: "i" } },
-        { "title.es": { $regex: title as string, $options: "i" } },
-        { "title.bn": { $regex: title as string, $options: "i" } },
-        { "title.sl": { $regex: title as string, $options: "i" } },
-        { slug: title as string },
+        { "title.en": { $regex: req.query.title as string, $options: "i" } },
+        { "title.de": { $regex: req.query.title as string, $options: "i" } },
+        { "title.es": { $regex: req.query.title as string, $options: "i" } },
+        { "title.bn": { $regex: req.query.title as string, $options: "i" } },
+        { "title.sl": { $regex: req.query.title as string, $options: "i" } },
+        { slug: req.query.title as string },
       ];
     }
+
+    console.log(queryObject)
+
 
     const products = await Product.find(queryObject)
       .populate({ path: "category", select: "name _id" })
