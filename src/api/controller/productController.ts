@@ -315,6 +315,7 @@ export const getShowingStoreProducts = async (req: Request, res: Response): Prom
 
     const products = await Product.find(queryObject)
       .populate({ path: "category", select: "name _id" })
+      .populate({ path: "brand", select: "_id name" })
       .sort({ _id: -1 })
       .limit(100);
 

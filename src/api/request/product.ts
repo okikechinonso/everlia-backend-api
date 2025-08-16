@@ -26,6 +26,7 @@ export const productSchema = Joi.object<Product>({
   sku: Joi.string().optional().allow(null, ''),
   description: Joi.object().optional(),
   slug: Joi.string().required(),
+  brand: Joi.string().optional(),
   categories: Joi.array().items(categories).optional(),
   image: Joi.array().items(Joi.string()).required(),
   category: categories,

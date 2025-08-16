@@ -16,6 +16,7 @@ import attributeRoutes from "../routes/attributeRoutes";
 import settingRoutes from "../routes/settingRoutes";
 import currencyRoutes from "../routes/currencyRoutes";
 import languageRoutes from "../routes/languageRoutes";
+import brandRoutes from "../routes/brandRoutes";
 import { isAuth } from "../config/auth";
 import logger from "./middleware/logger";
 
@@ -48,6 +49,7 @@ app.use("/api/attributes/", attributeRoutes);
 app.use("/api/setting/", settingRoutes);
 app.use("/api/currency/", isAuth, currencyRoutes);
 app.use("/api/language/", languageRoutes);
+app.use("/api/brands/", brandRoutes);
 
 // Routes for admin dashboard
 app.use("/api/admin/", adminRoutes);

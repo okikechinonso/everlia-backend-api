@@ -10,6 +10,7 @@ export interface Product {
   slug: string;
   categories: Types.ObjectId[]; 
   category: Types.ObjectId; 
+  brand?: Types.ObjectId; 
   image: string[]; 
   stock?: number;
   sales?: number;
