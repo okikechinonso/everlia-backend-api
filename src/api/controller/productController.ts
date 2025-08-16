@@ -9,7 +9,7 @@ import { ObjectId } from 'mongodb';
 
 export const addProduct = async (req: Request, res: Response): Promise<void> => {
   try {
-    const {error, value} =validateCreateProduct(req.body);
+    const { error, value } = validateCreateProduct(req.body);
     if (error) {
       res.status(400).send({
         message: error.details[0].message,
@@ -30,9 +30,9 @@ export const addProduct = async (req: Request, res: Response): Promise<void> => 
           images.push(imageUrl.secure_url);
           newProduct.variants[i].image = imageUrl.secure_url;
         }
-      } 
+      }
     }
-    
+
     for (let i = 0; i < newProduct.image?.length; i++) {
       const image = newProduct.image[i];
       if (image) {
@@ -175,9 +175,9 @@ export const getProductById = async (req: Request, res: Response): Promise<void>
 
 export const updateImage = async (req: Request, res: Response): Promise<void> => {
   try {
-   const url = await  cloudinaryUploadToImage(req.body[0])
-   await Product.updateOne({_id: req.params.id}, {$set: {image: [url.secure_url]}})
-    res.send({message: "successfully updated image"});
+    const url = await cloudinaryUploadToImage(req.body[0])
+    await Product.updateOne({ _id: req.params.id }, { $set: { image: [url.secure_url] } })
+    res.send({ message: "successfully updated image" });
   } catch (err) {
     res.status(500).send({
       message: (err as Error).message,
@@ -296,14 +296,18 @@ export const deleteManyProducts = async (req: Request, res: Response): Promise<v
 export const getShowingStoreProducts = async (req: Request, res: Response): Promise<void> => {
   try {
     const queryObject: Record<string, any> = { status: "show" };
-    const { category, title } = req.query;
+    const { category, title, brand } = req.query;
 
     if (category) {
       queryObject.$or = [
-         {category: new ObjectId(category as string) }
+        { category: new ObjectId(category as string) }
       ]
     }
-    console.log(queryObject)
+
+    if (brand) {
+      queryObject.brand = brand
+    }
+
     if (title) {
       queryObject.$or = [
         { "title.en": { $regex: title as string, $options: "i" } },
