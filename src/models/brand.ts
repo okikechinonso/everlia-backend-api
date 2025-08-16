@@ -1,11 +1,21 @@
 import mongoose from "mongoose";
-import { Brand as  BrandType } from "../types/brand";
+import { Brand as BrandType } from "../types/brand";
 
 const brandSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
+      unique: true
+    },
+    slug: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    logo: {
+      type: String,
+      required: false,
     },
   },
   {
