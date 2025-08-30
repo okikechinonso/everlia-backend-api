@@ -304,10 +304,9 @@ export const getShowingStoreProducts = async (req: Request, res: Response): Prom
     const queryObject: Record<string, any> = { status: "show" };
 
     if (req.query.category) {
+      console.log("category id", req.query.category)
       try {
-        queryObject.$or = [
-          { category: new ObjectId(req.query.category as string) }
-        ]
+        queryObject.category = new ObjectId(req.query.category as string) 
       } catch (error) {
         if (req.query._id) {
           const categoryid = req.query._id;
