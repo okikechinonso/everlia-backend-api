@@ -149,8 +149,14 @@ export const getAllProducts = async (req: Request, res: Response): Promise<void>
 
 export const getProductBySlug = async (req: Request, res: Response): Promise<void> => {
   try {
-    const product = await Product.findOne({ slug: req.params.slug });
-    res.send(product);
+    const product = await Product.findOne({ slug: req.params.slug })
+      .populate({ path: "category", select: "_id name" });
+
+    const relatedProducts = await Product.find({
+      category: product?.category,
+    }).populate({ path: "category", select: "_id name" });
+
+    res.send({ product, relatedProducts });
   } catch (err) {
     res.status(500).send({
       message: `Slug problem, ${(err as Error).message}`,
