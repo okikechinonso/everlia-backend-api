@@ -151,13 +151,11 @@ export const getProductBySlug = async (req: Request, res: Response): Promise<voi
   console.log("slug", req.params.slug)
   try {
     const product = await Product.findOne({ slug: req.params.slug })
-      .populate({ path: "category", select: "_id name" })
-      .populate({ path: "categories", select: "_id name" })
-      .populate({ path: "brand", select: "_id name" });
+      .populate({ path: "category", select: "_id name" });
 
     const relatedProducts = await Product.find({
       category: product?.category,
-    }).limit(5).populate({ path: "category", select: "_id name" });
+    }).populate({ path: "category", select: "_id name" });
 
     res.send({ product, relatedProducts });
   } catch (err) {
@@ -282,6 +280,32 @@ export const deleteProduct = async (req: Request, res: Response): Promise<void> 
     res.status(200).send({
       message: "Product Deleted Successfully!",
     });
+  } catch (err) {
+    res.status(500).send({
+      message: (err as Error).message,
+    });
+  }
+};
+
+export const searchProducts = async (req: Request, res: Response): Promise<void> => {
+  try {
+    console.log(req.params.slug)
+
+    const products = await Product.find(
+      { "title.en": { $regex: req.params.slug, $options: "i" } },
+      { title: 1, slug: 1, _id: 0 }
+    ).limit(7);
+
+
+    const productNames = products.map(p => {
+      const { en } = p.title as { en: string }
+      const slug = p.slug
+      return {
+        en, 
+        slug
+      }
+    });
+    res.status(200).send(productNames);
   } catch (err) {
     res.status(500).send({
       message: (err as Error).message,

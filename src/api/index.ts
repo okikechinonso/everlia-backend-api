@@ -70,16 +70,19 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-setInterval(() => {
-  axios.get("https://everlia-backend-api.onrender.com")
-    .then(response => {
-      console.log("1")
-      //console.log(⁠ Self-ping successful: ${response.data.timestamp} ⁠);
-    })
-    .catch(error => {
-      // console.error('Self-ping failed:', error.message);
-    });
-}, 1000 * 60 * 7);
+if (process.env.ON_RENDER) {
+  setInterval(() => {
+    axios.get("https://everlia-backend-api.onrender.com")
+      .then(response => {
+        console.log("1")
+        //console.log(⁠ Self-ping successful: ${response.data.timestamp} ⁠);
+      })
+      .catch(error => {
+        // console.error('Self-ping failed:', error.message);
+      });
+  }, 1000 * 60 * 7);
+}
+
 
 
 const PORT = process.env.PORT || 5000;
