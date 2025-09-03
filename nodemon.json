@@ -2,6 +2,6 @@
     "watch": ["."],
     "ext": "ts",
     "ignore": ["src/**/*.spec.ts"],
-    "exec": "tsc --noEmit && node --no-warnings=ExperimentalWarning --loader ts-node/esm ./src/api/index.ts",
+    "exec": "--watch src --exec \"tsc --noEmit && ts-node src/api/index.ts\"",
     "restartable": "rs"
 }

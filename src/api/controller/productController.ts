@@ -148,9 +148,18 @@ export const getAllProducts = async (req: Request, res: Response): Promise<void>
 };
 
 export const getProductBySlug = async (req: Request, res: Response): Promise<void> => {
+  console.log("slug", req.params.slug)
   try {
-    const product = await Product.findOne({ slug: req.params.slug });
-    res.send(product);
+    const product = await Product.findOne({ slug: req.params.slug })
+      .populate({ path: "category", select: "_id name" })
+      .populate({ path: "categories", select: "_id name" })
+      .populate({ path: "brand", select: "_id name" });
+
+    const relatedProducts = await Product.find({
+      category: product?.category,
+    }).limit(5).populate({ path: "category", select: "_id name" });
+
+    res.send({ product, relatedProducts });
   } catch (err) {
     res.status(500).send({
       message: `Slug problem, ${(err as Error).message}`,
@@ -300,7 +309,7 @@ export const getShowingStoreProducts = async (req: Request, res: Response): Prom
     if (req.query.category) {
       console.log("category id", req.query.category)
       try {
-        queryObject.category = new ObjectId(req.query.category as string) 
+        queryObject.category = new ObjectId(req.query.category as string)
       } catch (error) {
         if (req.query._id) {
           const categoryid = req.query._id;

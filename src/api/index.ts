@@ -4,7 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import path from "path";
 
-import connectDB  from "../config/db";
+import connectDB from "../config/db";
 import productRoutes from "../routes/productRoutes";
 import customerRoutes from "../routes/customerRoutes";
 import adminRoutes from "../routes/adminRoutes";
@@ -19,6 +19,7 @@ import languageRoutes from "../routes/languageRoutes";
 import brandRoutes from "../routes/brandRoutes";
 import { isAuth } from "../config/auth";
 import logger from "./middleware/logger";
+import axios from "axios";
 
 dotenv.config();
 
@@ -68,6 +69,18 @@ app.use("/static", express.static("public"));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
+
+setInterval(() => {
+  axios.get("https://everlia-backend-api.onrender.com")
+    .then(response => {
+      console.log("1")
+      //console.log(⁠ Self-ping successful: ${response.data.timestamp} ⁠);
+    })
+    .catch(error => {
+      // console.error('Self-ping failed:', error.message);
+    });
+}, 1000 * 60 * 7);
+
 
 const PORT = process.env.PORT || 5000;
 
