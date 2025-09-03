@@ -13,6 +13,7 @@ import {
   deleteManyProducts,
   getShowingStoreProducts,
   updateImage,
+  searchProducts,
 } from "../api/controller/productController";
 
 const router = express.Router();
@@ -37,6 +38,9 @@ router.get("/", getAllProducts);
 
 // Get a product by slug
 router.get("/product/:slug", getProductBySlug);
+
+// search a product by name
+router.get("/product/search/:slug", searchProducts);
 
 //update a product
 router.put("/:id", updateProduct);

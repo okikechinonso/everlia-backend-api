@@ -286,6 +286,32 @@ export const deleteProduct = async (req: Request, res: Response): Promise<void> 
   }
 };
 
+export const searchProducts = async (req: Request, res: Response): Promise<void> => {
+  try {
+    console.log(req.params.slug)
+
+    const products = await Product.find(
+      { "title.en": { $regex: req.params.slug, $options: "i" } },
+      { title: 1, slug: 1, _id: 0 }
+    ).limit(7);
+
+
+    const productNames = products.map(p => {
+      const { en } = p.title as { en: string }
+      const slug = p.slug
+      return {
+        en, 
+        slug
+      }
+    });
+    res.status(200).send(productNames);
+  } catch (err) {
+    res.status(500).send({
+      message: (err as Error).message,
+    });
+  }
+};
+
 export const deleteManyProducts = async (req: Request, res: Response): Promise<void> => {
   try {
     await Product.deleteMany({ _id: req.body.ids });
@@ -306,7 +332,7 @@ export const getShowingStoreProducts = async (req: Request, res: Response): Prom
     if (req.query.category) {
       console.log("category id", req.query.category)
       try {
-        queryObject.category = new ObjectId(req.query.category as string) 
+        queryObject.category = new ObjectId(req.query.category as string)
       } catch (error) {
         if (req.query._id) {
           const categoryid = req.query._id;
