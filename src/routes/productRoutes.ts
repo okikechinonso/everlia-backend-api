@@ -14,6 +14,7 @@ import {
   getShowingStoreProducts,
   updateImage,
   searchProducts,
+  getCategoryProducts,
 } from "../api/controller/productController";
 
 const router = express.Router();
@@ -35,6 +36,9 @@ router.get("/list/store", getShowingStoreProducts);
 
 // Get all products
 router.get("/", getAllProducts);
+
+router.get("/category/products", getCategoryProducts);
+
 
 // Get a product by slug
 router.get("/product/:slug", getProductBySlug);

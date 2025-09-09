@@ -5,6 +5,7 @@ import Category from "../../models/Category";
 import { cloudinaryUploadToImage } from "../../lib/file-upload/cloudinary";
 import { validateCreateProduct } from "../request/product";
 import { ObjectId } from 'mongodb';
+import { Product as ProductModel } from "../../types/product";
 
 
 export const addProduct = async (req: Request, res: Response): Promise<void> => {
@@ -73,6 +74,35 @@ export const getShowingProducts = async (req: Request, res: Response): Promise<v
     res.status(500).send({
       message: (err as Error).message,
     });
+  }
+};
+
+export const getCategoryProducts = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const categories = await Category.find({ status: "show" }).limit(15);
+
+    const categoryProducts: { _id: string, category: string; products: any[] }[] = [];
+
+    for (const cat of categories) {
+      const prods = await Product.find({ category: new ObjectId(cat._id) })
+        .populate({ path: "category", select: "_id name" })
+        .sort({ createdAt: -1 })
+        .limit(10);
+
+      if (prods.length > 0) {
+        categoryProducts.push({
+          _id: cat.id,
+          category: cat.name?.en,
+          products: prods,
+        });
+      }
+
+
+    }
+
+    res.send(categoryProducts);
+  } catch (err) {
+    res.status(500).send({ message: (err as Error).message });
   }
 };
 
@@ -301,7 +331,7 @@ export const searchProducts = async (req: Request, res: Response): Promise<void>
       const { en } = p.title as { en: string }
       const slug = p.slug
       return {
-        en, 
+        en,
         slug
       }
     });
