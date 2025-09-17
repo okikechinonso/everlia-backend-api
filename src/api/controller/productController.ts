@@ -240,6 +240,7 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
       product.variants = req.body.variants;
       product.stock = req.body.stock;
       product.prices = req.body.prices;
+      product.brand = req.body.brand;
       // product.image = req.body.image;
       product.tag = req.body.tag;
 
