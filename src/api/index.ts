@@ -30,7 +30,8 @@ const app = express();
 // See: https://github.com/nfriedly/express-rate-limit
 app.set("trust proxy", 1);
 
-app.use(express.json({ limit: "4mb" }));
+app.use(express.json({ limit: "1mb" }));
+app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 app.use(logger())
 app.use(helmet());
 app.use(cors());
