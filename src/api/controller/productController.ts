@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import mongoose from "mongoose";
 import Product from "../../models/Product";
 import Category from "../../models/Category";
+import ScentProfile from "../../models/ScentProfile";
 import { cloudinaryUploadToImage } from "../../lib/file-upload/cloudinary";
 import { validateCreateProduct } from "../request/product";
 import { ObjectId } from 'mongodb';
@@ -42,6 +43,10 @@ export const addProduct = async (req: Request, res: Response): Promise<void> => 
       }
     }
     newProduct.image = images;
+    // attach scentProfile if provided as id
+    if (req.body.scentProfile) {
+      newProduct.scentProfile = req.body.scentProfile;
+    }
     await newProduct.save();
     res.send(newProduct);
   } catch (err) {
@@ -68,7 +73,8 @@ export const addAllProducts = async (req: Request, res: Response): Promise<void>
 
 export const getShowingProducts = async (req: Request, res: Response): Promise<void> => {
   try {
-    const products = await Product.find({ status: "show" }).sort({ _id: -1 });
+    const products = await Product.find({ status: "show" }).sort({ _id: -1 })
+      .populate({ path: "scentProfile", select: "_id name" });
     res.send(products);
   } catch (err) {
     res.status(500).send({
@@ -86,6 +92,7 @@ export const getCategoryProducts = async (req: Request, res: Response): Promise<
     for (const cat of categories) {
       const prods = await Product.find({ category: new ObjectId(cat._id) })
         .populate({ path: "category", select: "_id name" })
+        .populate({ path: "scentProfile", select: "_id name" })
         .sort({ createdAt: -1 })
         .limit(10);
 
@@ -160,6 +167,7 @@ export const getAllProducts = async (req: Request, res: Response): Promise<void>
     const products = await Product.find(queryObject)
       .populate({ path: "category", select: "_id name" })
       .populate({ path: "categories", select: "_id name" })
+      .populate({ path: "scentProfile", select: "_id name" })
       .sort(sortObject)
       .skip(skip)
       .limit(limits);
@@ -181,11 +189,14 @@ export const getProductBySlug = async (req: Request, res: Response): Promise<voi
   console.log("slug", req.params.slug)
   try {
     const product = await Product.findOne({ slug: req.params.slug })
-      .populate({ path: "category", select: "_id name" });
+      .populate({ path: "category", select: "_id name" })
+      .populate({ path: "scentProfile", select: "_id name" });
 
     const relatedProducts = await Product.find({
       category: product?.category,
-    }).populate({ path: "category", select: "_id name" });
+    })
+      .populate({ path: "category", select: "_id name" })
+      .populate({ path: "scentProfile", select: "_id name" });
 
     res.send({ product, relatedProducts });
   } catch (err) {
@@ -200,7 +211,8 @@ export const getProductById = async (req: Request, res: Response): Promise<void>
     const product = await Product.findById(req.params.id)
       .populate({ path: "category", select: "_id name" })
       .populate({ path: "categories", select: "_id name" })
-      .populate({ path: "brand", select: "_id name" });
+      .populate({ path: "brand", select: "_id name" })
+      .populate({ path: "scentProfile", select: "_id name" });
 
     res.send(product);
   } catch (err) {
@@ -241,6 +253,7 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
       product.stock = req.body.stock;
       product.prices = req.body.prices;
       product.brand = req.body.brand;
+      product.scentProfile = req.body.scentProfile;
       // product.image = req.body.image;
       product.tag = req.body.tag;
 

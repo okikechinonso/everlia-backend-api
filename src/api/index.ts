@@ -17,6 +17,7 @@ import settingRoutes from "../routes/settingRoutes";
 import currencyRoutes from "../routes/currencyRoutes";
 import languageRoutes from "../routes/languageRoutes";
 import brandRoutes from "../routes/brandRoutes";
+import scentProfileRoutes from "../routes/scentProfileRoutes";
 import { isAuth } from "../config/auth";
 import logger from "./middleware/logger";
 import axios from "axios";
@@ -52,6 +53,7 @@ app.use("/api/setting/", settingRoutes);
 app.use("/api/currency/", isAuth, currencyRoutes);
 app.use("/api/language/", languageRoutes);
 app.use("/api/brands/", brandRoutes);
+app.use("/api/scentprofiles/", scentProfileRoutes);
 
 // Routes for admin dashboard
 app.use("/api/admin/", adminRoutes);

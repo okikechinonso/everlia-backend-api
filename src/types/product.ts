@@ -5,24 +5,25 @@ export interface Product {
   sku?: string;
   hasTest?: boolean;
   barcode?: string;
-  title: object; 
-  description?: Record<string, any>; 
+  title: object;
+  description?: Record<string, any>;
   slug: string;
-  categories: Types.ObjectId[]; 
-  category: Types.ObjectId; 
-  brand?: Types.ObjectId; 
-  image: string[]; 
+  categories: Types.ObjectId[];
+  category: Types.ObjectId;
+  brand?: Types.ObjectId;
+  scentProfile?: Types.ObjectId;
+  image: string[];
   stock?: number;
   sales?: number;
-  tag?: string[]; 
+  tag?: string[];
   prices: {
     originalPrice: number;
     price: number;
     discount?: number;
   };
-  variants?: Record<string, any>[]; 
+  variants?: Record<string, any>[];
   isCombination: boolean;
-  status?: "show" | "hide"; 
+  status?: "show" | "hide";
   createdAt?: Date;
   updatedAt?: Date;
 }
