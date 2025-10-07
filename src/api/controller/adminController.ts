@@ -137,7 +137,8 @@ export const resetPassword = async (req: Request, res: Response) => {
 
 export const addStaff = async (req: Request, res: Response) => {
   try {
-    const isAdded = await Admin.findOne({ email: req.body.staffData.email });
+    const staffData = (req.body && req.body.staffData) ? req.body.staffData : req.body;
+    const isAdded = await Admin.findOne({ email: staffData?.email });
     if (isAdded) {
        res.status(500).send({
         message: "This Email already Added!",
@@ -145,13 +146,13 @@ export const addStaff = async (req: Request, res: Response) => {
       return
     } else {
       const newStaff = new Admin({
-        name: req.body.staffData.name,
-        email: req.body.staffData.email,
-        password: hashSync(req.body.staffData.password, 14),
-        phone: req.body.staffData.phone,
-        joiningDate: req.body.staffData.joiningDate ? req.body.staffData.joiningDate : new Date(),
-        role: req.body.staffData.role,
-        image: req.body.staffData.image,
+        name: staffData?.name,
+        email: staffData?.email,
+        password: staffData?.password ? hashSync(staffData.password, 14) : undefined,
+        phone: staffData?.phone,
+        joiningDate: staffData?.joiningDate ? staffData.joiningDate : new Date(),
+        role: staffData?.role,
+        image: staffData?.image,
       });
       await newStaff.save();
       res.status(200).send({
