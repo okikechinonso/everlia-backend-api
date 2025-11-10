@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import helmet from "helmet";
+import helmet, { crossOriginResourcePolicy } from "helmet";
 import path from "path";
 
 import connectDB from "../config/db";
@@ -34,7 +34,9 @@ app.set("trust proxy", 1);
 app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 app.use(logger())
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
 app.use(cors({
   origin: ['https://www.everliaworld.com', 'https://everliaworld.com', 'http://localhost:3000'],
   credentials: true,
