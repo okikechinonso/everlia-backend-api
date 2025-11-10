@@ -83,7 +83,7 @@ if (process.env.ON_RENDER) {
       .catch(error => {
         // console.error('Self-ping failed:', error.message);
       });
-  }, 1000 * 60 * 7);
+  }, 1000 * 60 * 2);
 }
 
 
