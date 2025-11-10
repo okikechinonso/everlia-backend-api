@@ -38,7 +38,7 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 app.use(cors({
-  origin: ['https://www.everliaworld.com', 'https://everliaworld.com', 'http://localhost:3000'],
+  origin: ['https://www.everliaworld.com', 'https://everliaworld.com', 'https://dev.everliaworld.com','http://localhost:3000'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
