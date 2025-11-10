@@ -45,6 +45,8 @@ app.use(cors({
   exposedHeaders: ['Content-Range', 'X-Content-Range']
 }));
 
+app.options('*', cors());
+
 // Root route
 app.get("/", (req, res) => {
   res.send("App works properly!");
