@@ -292,7 +292,7 @@ export const reverifyCaptcha = async (req: Request, res: Response) => {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
     });
 
-    const data = googleRes.data as { success?: boolean; score?: number; action?: string; [key: string]: any };
+    const data = googleRes.data as { success?: boolean; score?: number; action?: string;[key: string]: any };
 
     if (data.success) {
       res.status(200).send({ verified: true, data });
