@@ -15,6 +15,7 @@ import {
   updateImage,
   searchProducts,
   getCategoryProducts,
+  getProductsByScentProfile,
 } from "../api/controller/productController";
 
 const router = express.Router();
@@ -39,6 +40,8 @@ router.get("/", getAllProducts);
 
 router.get("/category/products", getCategoryProducts);
 
+// Get products by scent profile
+router.get("/scent-profile/:scentProfileId", getProductsByScentProfile);
 
 // Get a product by slug
 router.get("/product/:slug", getProductBySlug);

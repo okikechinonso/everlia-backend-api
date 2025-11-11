@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import helmet from "helmet";
+import helmet, { crossOriginResourcePolicy } from "helmet";
 import path from "path";
 
 import connectDB from "../config/db";
@@ -17,6 +17,7 @@ import settingRoutes from "../routes/settingRoutes";
 import currencyRoutes from "../routes/currencyRoutes";
 import languageRoutes from "../routes/languageRoutes";
 import brandRoutes from "../routes/brandRoutes";
+import scentProfileRoutes from "../routes/scentProfileRoutes";
 import { isAuth } from "../config/auth";
 import logger from "./middleware/logger";
 import axios from "axios";
@@ -33,8 +34,18 @@ app.set("trust proxy", 1);
 app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 app.use(logger())
-app.use(helmet());
-app.use(cors());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
+app.use(cors({
+  origin: ['https://www.everliaworld.com', 'https://everliaworld.com', 'https://dev.everliaworld.com','http://localhost:3000'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  exposedHeaders: ['Content-Range', 'X-Content-Range']
+}));
+
+app.options('*', cors());
 
 // Root route
 app.get("/", (req, res) => {
@@ -52,6 +63,7 @@ app.use("/api/setting/", settingRoutes);
 app.use("/api/currency/", isAuth, currencyRoutes);
 app.use("/api/language/", languageRoutes);
 app.use("/api/brands/", brandRoutes);
+app.use("/api/scentprofiles/", scentProfileRoutes);
 
 // Routes for admin dashboard
 app.use("/api/admin/", adminRoutes);
@@ -81,7 +93,7 @@ if (process.env.ON_RENDER) {
       .catch(error => {
         // console.error('Self-ping failed:', error.message);
       });
-  }, 1000 * 60 * 7);
+  }, 1000 * 60 * 2);
 }
 
 

@@ -49,6 +49,11 @@ const productSchema = new mongoose.Schema(
       ref: "Brand",
       required: false,
     },
+    scentProfile: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ScentProfile",
+      required: false,
+    },
     image: {
       type: Array,
       required: true,
