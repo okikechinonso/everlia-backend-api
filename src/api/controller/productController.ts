@@ -430,3 +430,40 @@ export const getShowingStoreProducts = async (req: Request, res: Response): Prom
     });
   }
 };
+
+export const getProductsByScentProfile = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { scentProfileId } = req.params;
+    
+    if (!scentProfileId) {
+      res.status(400).send({ message: "Scent profile ID is required" });
+      return;
+    }
+
+    // Verify scent profile exists
+    const scentProfile = await ScentProfile.findById(scentProfileId);
+    if (!scentProfile) {
+      res.status(404).send({ message: "Scent profile not found" });
+      return;
+    }
+
+    const products = await Product.find({ 
+      scentProfile: new ObjectId(scentProfileId),
+      status: "show" 
+    })
+      .populate({ path: "category", select: "_id name" })
+      .populate({ path: "brand", select: "_id name" })
+      .populate({ path: "scentProfile", select: "_id name description" })
+      .sort({ _id: -1 });
+
+    res.send({
+      scentProfile,
+      products,
+      totalProducts: products.length
+    });
+  } catch (err) {
+    res.status(500).send({
+      message: (err as Error).message,
+    });
+  }
+};
