@@ -6,16 +6,17 @@ import { signInToken, tokenForVerify } from "../../config/auth";
 import { sendEmail } from "../../lib/email-sender/sender";
 import Admin from "../../models/Admin";
 import { Request, Response } from "express";
+import axios from "axios";
 
 
 dayjs.extend(utc);
 
-export const registerAdmin = async (req: Request, res: Response)=> {
+export const registerAdmin = async (req: Request, res: Response) => {
   try {
     console.log(req.body)
     const isAdded = await Admin.findOne({ email: req.body.email });
     if (isAdded) {
-       res.status(403).send({
+      res.status(403).send({
         message: "This Email already Added!",
       });
       return
@@ -74,7 +75,7 @@ export const loginAdmin = async (req: Request, res: Response) => {
 export const forgetPassword = async (req: Request, res: Response) => {
   const isAdded = await Admin.findOne({ email: req.body.verifyEmail });
   if (!isAdded) {
-     res.status(404).send({
+    res.status(404).send({
       message: "Admin/Staff Not found with this email!",
     });
     return
@@ -103,7 +104,7 @@ export const resetPassword = async (req: Request, res: Response) => {
   const { email } = jwt.decode(token) as { email: string };
   const staff = await Admin.findOne({ email: email });
   if (!staff) {
-     res.status(404).send({
+    res.status(404).send({
       message: "Admin/Staff Not found with this email!",
     });
     return
@@ -112,19 +113,19 @@ export const resetPassword = async (req: Request, res: Response) => {
   if (token) {
     const secret = process.env.JWT_SECRET_FOR_VERIFY;
     if (!secret) {
-       res.status(500).send({
+      res.status(500).send({
         message: "JWT secret is not defined in the environment variables.",
       });
       return
     }
     jwt.verify(token, secret, (err: jwt.VerifyErrors | null) => {
       if (err) {
-         res.status(500).send({
+        res.status(500).send({
           message: "Token expired, please try again!",
         });
         return
       } else {
-        
+
         staff.password = hashSync(req.body.newPassword, 14);
         staff.save();
         res.send({
@@ -140,7 +141,7 @@ export const addStaff = async (req: Request, res: Response) => {
     const staffData = (req.body && req.body.staffData) ? req.body.staffData : req.body;
     const isAdded = await Admin.findOne({ email: staffData?.email });
     if (isAdded) {
-       res.status(500).send({
+      res.status(500).send({
         message: "This Email already Added!",
       });
       return
@@ -195,7 +196,7 @@ export const updateStaff = async (req: Request, res: Response) => {
   try {
     const admin = await Admin.findOne({ _id: req.params.id });
     if (admin) {
-      admin.name = req.body.name ;
+      admin.name = req.body.name;
       admin.email = req.body.email;
       admin.phone = req.body.phone;
       admin.role = req.body.role;
@@ -265,5 +266,41 @@ export const updatedStatus = async (req: Request, res: Response) => {
     res.status(500).send({
       message: message,
     });
+  }
+};
+
+export const reverifyCaptcha = async (req: Request, res: Response) => {
+  try {
+    const token = req.body?.token || req.body?.captchaToken || req.headers["x-captcha-token"];
+    if (!token) {
+      res.status(400).send({ message: "Captcha token is required" });
+      return;
+    }
+
+    const secret = process.env.RECAPTCHA_SECRET || process.env.RECAPTCHA_SECRET_KEY;
+    if (!secret) {
+      res.status(500).send({ message: "ReCAPTCHA secret is not configured on the server" });
+      return;
+    }
+
+    // Call Google's siteverify endpoint
+    const params = new URLSearchParams();
+    params.append("secret", secret);
+    params.append("response", String(token));
+
+    const googleRes = await axios.post("https://www.google.com/recaptcha/api/siteverify", params.toString(), {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    });
+
+    const data = googleRes.data as { success?: boolean; score?: number; action?: string; [key: string]: any };
+
+    if (data.success) {
+      res.status(200).send({ verified: true, data });
+    } else {
+      res.status(403).send({ verified: false, data });
+    }
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    res.status(500).send({ message });
   }
 };

@@ -5,11 +5,12 @@ import {
   getOrderCustomer,
   createPaymentIntent,
 } from "../api/controller/customerOrderController";
+import { verifyOrderToken } from "../middleware/verifyOrder";
 
 const router = express.Router();
 
-// Add an order
-router.post("/add", addOrder);
+// Add an order (protected by verification middleware)
+router.post("/add", verifyOrderToken, addOrder);
 
 // Create Stripe payment intent
 router.post("/create-payment-intent", createPaymentIntent);

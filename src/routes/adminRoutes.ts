@@ -5,6 +5,7 @@ import {
   forgetPassword,
   resetPassword,
   addStaff,
+  reverifyCaptcha,
   getAllStaff,
   getStaffById,
   updateStaff,
@@ -29,6 +30,9 @@ router.put("/reset-password", resetPassword);
 
 // Add a staff
 router.post("/add", addStaff);
+
+// Reverify captcha token
+router.post("/reverify-captcha", reverifyCaptcha);
 
 // Get all staff
 router.get("/", getAllStaff);
