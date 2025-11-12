@@ -434,7 +434,7 @@ export const getShowingStoreProducts = async (req: Request, res: Response): Prom
 export const getProductsByScentProfile = async (req: Request, res: Response): Promise<void> => {
   try {
     const { scentProfileId } = req.params;
-    
+
     if (!scentProfileId) {
       res.status(400).send({ message: "Scent profile ID is required" });
       return;
@@ -447,9 +447,9 @@ export const getProductsByScentProfile = async (req: Request, res: Response): Pr
       return;
     }
 
-    const products = await Product.find({ 
+    const products = await Product.find({
       scentProfile: new ObjectId(scentProfileId),
-      status: "show" 
+      status: "show"
     })
       .populate({ path: "category", select: "_id name" })
       .populate({ path: "brand", select: "_id name" })
