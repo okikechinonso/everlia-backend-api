@@ -11,7 +11,7 @@ export interface Product {
   categories: Types.ObjectId[];
   category: Types.ObjectId;
   brand?: Types.ObjectId;
-  scentProfile?: Types.ObjectId;
+  scentProfiles?: Types.ObjectId[];
   image: string[];
   stock?: number;
   sales?: number;
