@@ -43,9 +43,9 @@ export const addProduct = async (req: Request, res: Response): Promise<void> => 
       }
     }
     newProduct.image = images;
-    // attach scentProfiles if provided as id
-    if (req.body.scentProfiles) {
-      newProduct.scentProfiles = req.body.scentProfiles;
+    // attach scentProfile if provided as id
+    if (req.body.scentProfile) {
+      newProduct.scentProfile = req.body.scentProfile;
     }
     await newProduct.save();
     res.send(newProduct);
@@ -253,7 +253,7 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
       product.stock = req.body.stock;
       product.prices = req.body.prices;
       product.brand = req.body.brand;
-      product.scentProfiles = req.body.scentProfile;
+      product.scentProfile = req.body.scentProfile;
       // product.image = req.body.image;
       product.tag = req.body.tag;
 
@@ -448,12 +448,12 @@ export const getProductsByScentProfile = async (req: Request, res: Response): Pr
     }
 
     const products = await Product.find({
-      scentProfile: new ObjectId(scentProfileId),
+      scentProfile: { "$in": [new ObjectId(scentProfileId)] },
       status: "show"
     })
       .populate({ path: "category", select: "_id name" })
       .populate({ path: "brand", select: "_id name" })
-      .populate({ path: "scentProfile", select: "_id name description" })
+      // .populate({ path: "scentProfiles", select: "_id name description" })
       .sort({ _id: -1 });
 
     res.send({
