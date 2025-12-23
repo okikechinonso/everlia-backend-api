@@ -32,6 +32,7 @@ export const productSchema = Joi.object<Product>({
   category: categories,
   stock: Joi.number().required(),
   tag: Joi.array().items(Joi.string()).optional(),
+  featured: Joi.boolean().optional(),
   prices: Joi.object({
     originalPrice: Joi.number().required(),
     price: Joi.number().required(),
@@ -55,6 +56,7 @@ export const addProductSchema = Joi.object<Product>({
   stock: Joi.number().required(),
   scentProfile: Joi.array().items(Joi.string()).optional(),
   tag: Joi.array().items(Joi.string().allow(null, '')).optional(),
+  featured: Joi.boolean().optional(),
   prices: Joi.object({
     originalPrice: Joi.number().required(),
     price: Joi.number().required(),

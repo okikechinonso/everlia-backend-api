@@ -16,6 +16,7 @@ export interface Product {
   stock?: number;
   sales?: number;
   tag?: string[];
+  featured?: boolean;
   prices: {
     originalPrice: number;
     price: number;

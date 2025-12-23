@@ -16,10 +16,13 @@ import {
   searchProducts,
   getCategoryProducts,
   getProductsByScentProfile,
+  getFeaturedProducts,
 } from "../api/controller/productController";
 
 const router = express.Router();
 
+// Get featured products only
+router.get("/list/featured", getFeaturedProducts);
 // Add a product
 router.post("/add", addProduct);
 

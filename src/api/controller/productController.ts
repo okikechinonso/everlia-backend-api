@@ -83,6 +83,27 @@ export const getShowingProducts = async (req: Request, res: Response): Promise<v
   }
 };
 
+export const getFeaturedProducts = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const limit = Number(req.query.limit) || 10;
+
+    const products = await Product.find({
+      featured: true,
+    })
+      .populate({ path: "category", select: "_id name" })
+      .populate({ path: "brand", select: "_id name" })
+      .populate({ path: "scentProfile", select: "_id name" })
+      .sort({ _id: -1 })
+      .limit(limit);
+
+    res.send(products);
+  } catch (err) {
+    res.status(500).send({
+      message: (err as Error).message,
+    });
+  }
+};
+
 export const getCategoryProducts = async (req: Request, res: Response): Promise<void> => {
   try {
     const categories = await Category.find({ status: "show" }).limit(15);
@@ -256,6 +277,7 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
       product.scentProfile = req.body.scentProfile;
       // product.image = req.body.image;
       product.tag = req.body.tag;
+      product.featured = req.body.featured;
 
 
 
